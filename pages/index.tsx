@@ -28,6 +28,7 @@ import {
     ReactFragment,
     ReactPortal,
 } from 'react';
+import { Artist } from '@prisma/client';
 
 const Home = (props: { spotifyData: any; artists: any }) => {
     const { spotifyData, artists } = props;
@@ -55,7 +56,7 @@ const Home = (props: { spotifyData: any; artists: any }) => {
                     <Text fontSize="md">only visible to you</Text>
                 </Box>
                 <Flex>
-                    {artists.map((artist) => (
+                    {artists.map((artist: Artist) => (
                         <Box paddingX="10px" width="20%">
                             <Box
                                 bg="gray.900"
