@@ -31,7 +31,7 @@ const theme = extendTheme({
         global: {
           // styles for the `body`
           body: {
-            bgGradient: 'linear(to-tl, brand.1, brand.2, brand.3, brand.4)',
+            bgGradient: 'linear(to-tr, brand.1, brand.2, brand.3, brand.4)',
           },
         },
     },

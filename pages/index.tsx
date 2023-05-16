@@ -6,81 +6,197 @@
 // const inter = Inter({ subsets: ['latin'] })
 
 // import {Center, Text} from '@chakra-ui/layout'
-import { Heading, Card, CardHeader, CardBody, CardFooter, Flex, Box, Text, Stack, Image, Center, Divider } from '@chakra-ui/react'
+import {
+    Heading,
+    Card,
+    CardHeader,
+    CardBody,
+    CardFooter,
+    Flex,
+    Box,
+    Text,
+    Stack,
+    Image,
+    Center,
+    Divider,
+} from '@chakra-ui/react';
+import PagesLayout from '../components/pagesLayout';
+import prisma from '../lib/prisma';
+import {
+    ReactElement,
+    JSXElementConstructor,
+    ReactFragment,
+    ReactPortal,
+} from 'react';
 
-const Home = (props) => {
-    const { data } = props;
+const Home = (props: { spotifyData: any; artists: any }) => {
+    const { spotifyData, artists } = props;
+    // const { artists } = props;
 
-    const newAlbums = [data.albums.items[0], data.albums.items[1], data.albums.items[3]];
-    console.log(data);
+    const newAlbums = [
+        spotifyData.albums.items[0],
+        spotifyData.albums.items[1],
+        spotifyData.albums.items[3],
+    ];
+    // console.log(data);
     return (
-        <Box>
-            <Heading color="#DCD5D5">
-                New Releases From Spotify
-            </Heading>
-            <Divider marginY="10px"/>
-            <Flex columnGap="20px" align="center">
-                {newAlbums.map(album => (
-                    <Card as="a" height="294px" width="352px" href={album.external_urls.spotify} target='blank'>
-                        <CardHeader maxH="10px">
-                            <Heading size="md">{album.name}</Heading>
-                        </CardHeader>
-                        <CardBody>
-                            <Center>
+        <PagesLayout
+            subtitle="profile"
+            title="Atul Shrestha"
+            description="personal playlists"
+            image="../me2-no-bg.png"
+            roundImage
+        >
+            <Box color="white" paddingX="40px">
+                <Box marginBottom="40px">
+                    <Text fontSize="2xl" fontWeight="bold">
+                        Top artist this month
+                    </Text>
+                    <Text fontSize="md">only visible to you</Text>
+                </Box>
+                <Flex>
+                    {artists.map((artist) => (
+                        <Box paddingX="10px" width="20%">
+                            <Box
+                                bg="gray.900"
+                                borderRadius="4px"
+                                padding="15px"
+                                width="100%"
+                            >
                                 <Image
-                                    src={album.images[0].url}
-                                    borderRadius='lg'
-                                    width="200"
-                                    height="200"
+                                    src="https://placekitten.com/300/300"
+                                    borderRadius="100%"
                                 />
-                            </Center>
-                        </CardBody>
-                        <CardFooter bg="black" height="66" display="flex" flexDirection="column" justify="center" align="center" color="white">
+                                <Box marginTop="20px">
+                                    <Text fontSize="large">{artist.name}</Text>
+                                    <Text fontSize="x-small">Artist</Text>
+                                </Box>
+                            </Box>
+                        </Box>
+                    ))}
+                </Flex>
+            </Box>
+            <Box>
+                <Heading color="#DCD5D5">New Releases From Spotify</Heading>
+                <Divider marginY="10px" />
+                <Flex columnGap="20px" align="center">
+                    {newAlbums.map((album) => (
+                        <Card
+                            as="a"
+                            height="294px"
+                            width="352px"
+                            href={album.external_urls.spotify}
+                            target="blank"
+                        >
+                            <CardHeader maxH="10px">
+                                <Heading size="md">{album.name}</Heading>
+                            </CardHeader>
+                            <CardBody>
+                                <Center>
+                                    <Image
+                                        src={album.images[0].url}
+                                        borderRadius="lg"
+                                        width="200"
+                                        height="200"
+                                    />
+                                </Center>
+                            </CardBody>
+                            <CardFooter
+                                bg="black"
+                                height="66"
+                                display="flex"
+                                flexDirection="column"
+                                justify="center"
+                                // align="center"
+                                color="white"
+                            >
                                 <Box>
-                                    <Text fontSize="20">{album.artists[0].name}</Text>
+                                    <Text fontSize="20">
+                                        {album.artists[0].name}
+                                    </Text>
                                 </Box>
                                 {/* <Box>
-                                    <Text fontSize="16">Song</Text>
-                                </Box> */}
-                        </CardFooter>
-                    </Card>
-                ))}
-            </Flex>
-        </Box>
+                                        <Text fontSize="16">Song</Text>
+                                    </Box> */}
+                            </CardFooter>
+                        </Card>
+                    ))}
+                </Flex>
+            </Box>
+        </PagesLayout>
+    );
+};
 
-    )
-}
+// export async function getStaticProps(){
+//     const clientId = process.env.SPOTIFY_CLIENT_ID;
+//     const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
+//     const accessTokenData = await fetch("https://accounts.spotify.com/api/token",
+//         {
+//             method: 'POST',
+//             body: 'grant_type=client_credentials&client_id=' + clientId + '&client_secret=' + clientSecret,
+//             headers: {
+//                 'Content-Type': 'application/x-www-form-urlencoded'
+//             }
+//         }).then(response => response.json());
 
-export default Home
+//     // console.log(accessTokenData);
+//     const accessToken = accessTokenData.access_token;
+//     // console.log(accessToken);
+//     const spotifyData = await fetch("https://api.spotify.com/v1/browse/new-releases?country=NP",
+//         {
+//             headers: {
+//                 Authorization: `Bearer ${accessToken}`
+//             }
+//         }).then(response => response.json());
 
-export async function getStaticProps(){
+//     console.log(spotifyData.albums.items[5]);
+//     // console.log(data.albums.items[5].artists[0].external_urls);
+
+//     const artists = await prisma.artist.findMany({})
+
+//     return {
+//         props : {
+//             spotifyData: spotifyData
+//         }
+//     }
+// }
+
+export const getServerSideProps = async () => {
+    const artists = await prisma.artist.findMany({});
+
     const clientId = process.env.SPOTIFY_CLIENT_ID;
     const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
-    const accessTokenData = await fetch("https://accounts.spotify.com/api/token",
+    const accessTokenData = await fetch(
+        'https://accounts.spotify.com/api/token',
         {
             method: 'POST',
-            body: 'grant_type=client_credentials&client_id=' + clientId + '&client_secret=' + clientSecret,
+            body: `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}`,
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        }).then(response => response.json());
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        }
+    ).then((response) => response.json());
 
     // console.log(accessTokenData);
     const accessToken = accessTokenData.access_token;
     // console.log(accessToken);
-    const data = await fetch("https://api.spotify.com/v1/browse/new-releases?country=NP",
+    const spotifyData = await fetch(
+        'https://api.spotify.com/v1/browse/new-releases?country=NP',
         {
             headers: {
-                Authorization: `Bearer ${accessToken}`
-            }
-        }).then(response => response.json());
+                Authorization: `Bearer ${accessToken}`,
+            },
+        }
+    ).then((response) => response.json());
 
-    // console.log(data.albums.items[5]);
-    // console.log(data.albums.items[5].artists[0].external_urls);
+    console.log(spotifyData.albums.items[5]);
 
     return {
-        props : {
-            data: data
-        }
-    }
-}
+        props: {
+            artists: JSON.parse(JSON.stringify(artists)),
+            spotifyData,
+        },
+    };
+};
+
+export default Home;

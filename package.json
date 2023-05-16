@@ -14,7 +14,7 @@
     "@emotion/react": "^11.10.8",
     "@emotion/styled": "^11.10.8",
     "@next/font": "13.3.2",
-    "@prisma/client": "^4.13.0",
+    "@prisma/client": "^4.14.0",
     "@types/node": "18.16.3",
     "@types/react-dom": "18.2.1",
     "axios": "^1.4.0",
@@ -54,7 +54,7 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^2.8.8",
-    "prisma": "^4.13.0",
+    "prisma": "^4.14.0",
     "ts-node": "^10.9.1"
   },
   "prisma": {

@@ -25,6 +25,8 @@ import {
     FiPlusCircle
 } from 'react-icons/fi'
 
+import { usePlaylist } from '../lib/hooks';
+
 const navMenu = [
     {
       name: 'Home',
@@ -64,9 +66,10 @@ const playlistsMenu = [
     }
 ]
 
-const playlists = new Array(30).fill(1).map((_, i)=>`Playlist ${i+1}`);
+// const playlists = new Array(30).fill(1).map((_, i)=>`Playlist ${i+1}`);
 
 const Sidebar = () => {
+    const { playlists } = usePlaylist()
     return (
         <Box
             width="100%"
@@ -175,10 +178,10 @@ const Sidebar = () => {
                         </LinkOverlay>
                     </LinkBox>
                 </Box>
-                <Box height="25%" overflowY="auto" paddingY="20px" width="90%">
+                <Box he ight="25%" overflowY="auto" paddingY="20px" width="90%">
                     <List spacing={3}>
                         {playlists.map(playlist=>(
-                            <ListItem paddingX="20px" fontSize="16px" key={playlist}>
+                            <ListItem paddingX="20px" fontSize="16px" key={playlist.id}>
                                     <LinkBox>
                                             <LinkOverlay
                                                 as={NextLink}
@@ -192,7 +195,7 @@ const Sidebar = () => {
                                                 _hover={{color: "#F08A6A", textShadow:'1px 1px #ff0000'}}
                                                 passHref
                                             >
-                                                {playlist}
+                                                {playlist.name}
                                             </LinkOverlay>
                                     </LinkBox>
                             </ListItem>
