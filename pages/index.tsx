@@ -20,14 +20,14 @@ import {
     Center,
     Divider,
 } from '@chakra-ui/react';
-import PagesLayout from '../components/pagesLayout';
-import prisma from '../lib/prisma';
 import {
     ReactElement,
     JSXElementConstructor,
     ReactFragment,
     ReactPortal,
 } from 'react';
+import prisma from '../lib/prisma';
+import PagesLayout from '../components/pagesLayout';
 import { Artist } from '@prisma/client';
 
 const Home = (props: { spotifyData: any; artists: any }) => {

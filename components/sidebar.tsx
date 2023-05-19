@@ -1,4 +1,4 @@
-// import NextImage from 'next/image';
+import NextImage from 'next/image';
 import NextLink from 'next/link';
 import {
     Box,
@@ -11,6 +11,7 @@ import {
     LinkOverlay,
     // Stack,
     Text,
+    HStack,
 } from '@chakra-ui/layout';
 
 import { Icon } from '@chakra-ui/react';
@@ -81,24 +82,29 @@ const Sidebar = () => {
             flexDirection="row"
         >
             <Box paddingY="20px" height="100%">
-                <Box
+                <HStack
                     // paddingTop="20px"
                     display="flex"
                     paddingBottom="60px"
                     paddingX="20px"
+                    // filter="drop-shadow(0 0 0.14rem crimson)"
                     _hover={{ filter: 'drop-shadow(0 0 0.75rem #0373a3)' }}
                 >
-                    {/* <NextImage src="/Artboard 1.png" height={30} width={60} alt="phonic-logo"/> */}
+                    <NextImage
+                        src="/Asset 9 1.svg"
+                        height={50}
+                        width={50}
+                        alt="phonic-logo"
+                    />
                     <Text
-                        fontFamily="Corbel"
-                        fontSize="50px"
+                        fontFamily="Futura"
+                        fontSize="36px"
                         fontWeight="Bold"
                         color="white"
-                        filter="drop-shadow(0 0 0.75rem crimson)"
                     >
-                        phonic
+                        Phonic
                     </Text>
-                </Box>
+                </HStack>
                 <Box marginBottom="10px">
                     <List spacing={5}>
                         {navMenu.map((menu) => (

@@ -1,8 +1,8 @@
-import type { AppProps } from 'next/app'
-import { ChakraProvider, extendTheme } from '@chakra-ui/react'
-import { StoreProvider } from 'easy-peasy'
-import PlayerLayout from '../components/playerLayout'
-import { store } from '../lib/store'
+import type { AppProps } from 'next/app';
+import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import { StoreProvider } from 'easy-peasy';
+import PlayerLayout from '../components/playerLayout';
+import { store } from '../lib/store';
 
 const theme = extendTheme({
     fonts: {
@@ -19,49 +19,57 @@ const theme = extendTheme({
             700: '#616161',
             800: '#424242',
             900: '#212121',
-          },
+        },
         brand: {
             1: '#0B0E16',
             2: '#441636',
             3: '#4E1F4C',
             4: '#0B0E16',
-        }
+        },
+        schemeTwo: {
+            bodyPink: '#6B084D',
+            bodyBlue: '#29235C',
+            barBlue: '#243963',
+            cardBlue: '#1A5E85',
+        },
     },
     styles: {
         global: {
-          // styles for the `body`
-          body: {
-            bgGradient: 'linear(to-tr, brand.1, brand.2, brand.3, brand.4)',
-          },
+            // styles for the `body`
+            body: {
+                bgGradient:
+                    'linear(to-b, schemeTwo.bodyPink, schemeTwo.bodyBlue)',
+                // bgGradient: 'linear(to-tr, brand.1, brand.2, brand.3, brand.4)',
+            },
         },
     },
     components: {
         Button: {
-        variants: {
-            link: {
-            ':focus': {
-                outline: 'none',
-                boxShadow: 'none',
+            variants: {
+                link: {
+                    ':focus': {
+                        outline: 'none',
+                        boxShadow: 'none',
+                    },
+                },
             },
-            },
-        },
         },
     },
-})
+});
 
-const App = ({ Component, pageProps } : AppProps ) => {
-  return (
-    <ChakraProvider theme={theme}>
-        <StoreProvider store={store}>
-            {Component.authPage ? (
-                <Component {...pageProps} />
-            ) : (
-                <PlayerLayout>
+const App = ({ Component, pageProps }: AppProps) => {
+    return (
+        <ChakraProvider theme={theme}>
+            <StoreProvider store={store}>
+                {Component.authPage ? (
                     <Component {...pageProps} />
-                </PlayerLayout>
-            )}
-        </StoreProvider>
-    </ChakraProvider>
-  )
-}
-export default App
+                ) : (
+                    <PlayerLayout>
+                        <Component {...pageProps} />
+                    </PlayerLayout>
+                )}
+            </StoreProvider>
+        </ChakraProvider>
+    );
+};
+export default App;
