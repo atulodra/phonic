@@ -1,5 +1,6 @@
 import { Box, Flex, Text } from '@chakra-ui/layout';
 import { Image } from '@chakra-ui/react';
+import { validateToken } from '../lib/auth';
 
 const PagesLayout = ({
     // color,
@@ -58,12 +59,15 @@ const PagesLayout = ({
                         {subtitle}
                     </Text>
                     {/* // TODO Make title editable and save it to DB  */}
-                    <Text fontSize="5xl">{title}</Text>
+                    <Text fontSize="5xl" contentEditable>
+                        {title}
+                    </Text>
                     <Text fontSize="xs">{description}</Text>
                 </Box>
             </Flex>
-            <Box paddingY="50px">{children}</Box>
+            <Box paddingY="30px">{children}</Box>
         </Box>
     );
 };
+
 export default PagesLayout;

@@ -3,9 +3,10 @@ import { validateToken } from '../../lib/auth';
 import PagesLayout from '../../components/pagesLayout';
 import { Box } from '@chakra-ui/react';
 import { Song } from '@prisma/client';
+import SongTable from '../../components/songTable';
 
 const Imager = () => {
-    // TODO a div to make an image from first four songs
+    // TODO a div to make an image from first four songs, move this to pageslayout
 
     return (
         <Box padding="20px" display="grid">
@@ -23,22 +24,29 @@ const Playlist = ({ playlist }) => {
             description={`${playlist.songs.length} songs`}
             image={false}
         >
-            <ul>
-                {playlist.songs.map((song: Song) => (
-                    <li key={song.id}>{song.name}</li>
-                ))}
-            </ul>
-            <div>This</div>
+            <SongTable songs={playlist.songs} />
         </PagesLayout>
     );
 };
 
 export const getServerSideProps = async ({ query, req }) => {
-    const { id } = validateToken(req.cookies.PHONIC_ACCESS_TOKEN);
+    let user;
+
+    try {
+        user = validateToken(req.cookies.PHONIC_ACCESS_TOKEN);
+    } catch (e) {
+        return {
+            redirect: {
+                permanent: false,
+                path: '/signin',
+            },
+        };
+    }
+
     const [playlist] = await prisma.playlist.findMany({
         where: {
             id: +query.id,
-            userId: id,
+            userId: user.id,
         },
         include: {
             songs: {

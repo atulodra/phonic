@@ -10,17 +10,6 @@ const theme = extendTheme({
         body: `GT Walsheim Pro`,
     },
     colors: {
-        gray: {
-            100: '#F5f5f5',
-            200: '#EEEEEE',
-            300: '#E0E0E0',
-            400: '#BDBDBD',
-            500: '#9E9E9E',
-            600: '#757575',
-            700: '#616161',
-            800: '#424242',
-            900: '#212121',
-        },
         brand: {
             1: '#0B0E16',
             2: '#441636',
@@ -30,8 +19,14 @@ const theme = extendTheme({
         schemeTwo: {
             bodyPink: '#6B084D',
             bodyBlue: '#29235C',
-            barBlue: '#243963',
+            barBlueOrignal: '#243963',
+            barBlueNew: '#0d1420',
+            oldBarColor: '#271010',
             cardBlue: '#1A5E85',
+            textColor: '#D1B5B5',
+            textColor2: '#C4B1B1',
+            hoverColor: '#F08A6A',
+            songArtistInfoBorder: 'rgba(82, 51, 51, 0.1)',
         },
     },
     styles: {
