@@ -35,6 +35,7 @@ const SongTable = ({ songs }) => {
                         <Tr>
                             <Th>#</Th>
                             <Th>Title</Th>
+                            <Th>Arist</Th>
                             <Th>Date Added</Th>
                             <Th>
                                 <AiOutlineClockCircle />
@@ -56,6 +57,7 @@ const SongTable = ({ songs }) => {
                             >
                                 <Td>{i + 1}</Td>
                                 <Td>{song.name}</Td>
+                                <Td>{song.artist.name}</Td>
                                 <Td>{formatDate(new Date(song.createdAt))}</Td>
                                 <Td>{formatTime(song.duration)}</Td>
                             </Tr>

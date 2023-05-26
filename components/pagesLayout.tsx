@@ -59,13 +59,11 @@ const PagesLayout = ({
                         {subtitle}
                     </Text>
                     {/* // TODO Make title editable and save it to DB  */}
-                    <Text fontSize="5xl" contentEditable>
-                        {title}
-                    </Text>
+                    <Text fontSize="5xl">{title}</Text>
                     <Text fontSize="xs">{description}</Text>
                 </Box>
             </Flex>
-            <Box paddingY="30px">{children}</Box>
+            <Box paddingTop="30px">{children}</Box>
         </Box>
     );
 };
