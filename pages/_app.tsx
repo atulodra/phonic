@@ -3,6 +3,7 @@ import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { StoreProvider } from 'easy-peasy';
 import PlayerLayout from '../components/playerLayout';
 import { store } from '../lib/store';
+import 'reset-css';
 
 const theme = extendTheme({
     fonts: {
@@ -37,6 +38,7 @@ const theme = extendTheme({
         global: {
             // styles for the `body`
             body: {
+                overflow: 'hidden',
                 bgGradient:
                     'linear(to-b, schemeTwo.bodyPink, schemeTwo.bodyBlue)',
                 // bgGradient: 'linear(to-tr, brand.1, brand.2, brand.3, brand.4)',
@@ -59,7 +61,7 @@ const theme = extendTheme({
 
 const App = ({ Component, pageProps }: AppProps) => {
     return (
-        <ChakraProvider theme={theme}>
+        <ChakraProvider resetCSS theme={theme}>
             <StoreProvider store={store}>
                 {Component.authPage ? (
                     <Component {...pageProps} />

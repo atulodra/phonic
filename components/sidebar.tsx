@@ -1,5 +1,6 @@
 import NextImage from 'next/image';
 import NextLink from 'next/link';
+
 import {
     Box,
     List,
@@ -67,8 +68,6 @@ const playlistsMenu = [
     },
 ];
 
-// const playlists = new Array(30).fill(1).map((_, i)=>`Playlist ${i+1}`);
-
 const Sidebar = () => {
     const { playlists } = usePlaylist();
     return (
@@ -81,7 +80,7 @@ const Sidebar = () => {
             display="flex"
             flexDirection="row"
         >
-            <Box paddingY="20px" height="100%">
+            <Box paddingY="15px" height="100%">
                 <HStack
                     // paddingTop="20px"
                     display="flex"
@@ -127,7 +126,7 @@ const Sidebar = () => {
                                             color: '#F08A6A',
                                             textShadow: '1px 1px #ff0000',
                                         }}
-                                        passHref
+                                        // passHref
                                     >
                                         <Icon as={menu.icon} />
                                         {menu.name}
@@ -171,7 +170,7 @@ const Sidebar = () => {
                                             color: '#F08A6A',
                                             textShadow: '1px 1px #ff0000',
                                         }}
-                                        passHref
+                                        // passHref
                                     >
                                         <Icon as={menu.icon} />
                                         {menu.name}
@@ -208,14 +207,33 @@ const Sidebar = () => {
                                 color: '#F08A6A',
                                 textShadow: '1px 1px #ff0000',
                             }}
-                            passHref
+                            // passHref
                         >
                             <Icon as={playlistsMenu[0].icon} />
                             {playlistsMenu[0].name}
                         </LinkOverlay>
                     </LinkBox>
                 </Box>
-                <Box height="25%" overflowY="auto" paddingY="20px" width="90%">
+                <Box
+                    height="30%"
+                    overflowY="auto"
+                    paddingY="15px"
+                    width="90%"
+                    sx={{
+                        '&::-webkit-scrollbar': {
+                            width: '0.4em',
+                        },
+                        '&::-webkit-scrollbar-track': {
+                            // width: '0.8em',
+                            backgroundColor: '#fff',
+                            borderRadius: '24px',
+                        },
+                        '&::-webkit-scrollbar-thumb': {
+                            background: '#a22968',
+                            borderRadius: '24px',
+                        },
+                    }}
+                >
                     <List spacing={3}>
                         {playlists.map((playlist: Playlist) => (
                             <ListItem
@@ -224,10 +242,35 @@ const Sidebar = () => {
                                 key={playlist.id}
                             >
                                 <LinkBox>
-                                    <LinkOverlay
+                                    <NextLink
+                                        href={{
+                                            pathname: '/playlist/[id]',
+                                            query: { id: playlist.id },
+                                        }}
+                                        // passHref
+                                    >
+                                        <LinkOverlay
+                                            marginRight="30px"
+                                            display="flex"
+                                            columnGap="15px"
+                                            alignItems="center"
+                                            // justifyContent="center"
+                                            _hover={{
+                                                color: '#F08A6A',
+                                                textShadow: '1px 1px #ff0000',
+                                            }}
+                                        >
+                                            {' '}
+                                            {playlist.name}
+                                        </LinkOverlay>
+                                    </NextLink>
+                                    {/* <LinkOverlay
                                         as={NextLink}
                                         // color="#D1B5B5"
-                                        href="/"
+                                        href={{
+                                            pathname: 'playlist/[id]',
+                                            query: { id: playlist.id },
+                                        }}
                                         marginRight="30px"
                                         display="flex"
                                         columnGap="15px"
@@ -237,17 +280,17 @@ const Sidebar = () => {
                                             color: '#F08A6A',
                                             textShadow: '1px 1px #ff0000',
                                         }}
-                                        passHref
+                                        // passHref
                                     >
                                         {playlist.name}
-                                    </LinkOverlay>
+                                    </LinkOverlay> */}
                                 </LinkBox>
                             </ListItem>
                         ))}
                     </List>
                 </Box>
             </Box>
-            <Divider orientation="vertical" color="#552C3D" />
+            <Divider orientation="vertical" color="#783a54" />
         </Box>
     );
 };

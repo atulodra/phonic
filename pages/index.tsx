@@ -26,13 +26,15 @@ import {
     ReactFragment,
     ReactPortal,
 } from 'react';
+import { Artist } from '@prisma/client';
 import prisma from '../lib/prisma';
 import PagesLayout from '../components/pagesLayout';
-import { Artist } from '@prisma/client';
+import { useMe } from '../lib/hooks';
 
 const Home = (props: { spotifyData: any; artists: any }) => {
     const { spotifyData, artists } = props;
     // const { artists } = props;
+    const { user } = useMe();
 
     const newAlbums = [
         spotifyData.albums.items[0],
@@ -43,9 +45,9 @@ const Home = (props: { spotifyData: any; artists: any }) => {
     return (
         <PagesLayout
             subtitle="profile"
-            title="Atul Shrestha"
-            description="personal playlists"
-            image="../me2-no-bg.png"
+            title={`${user?.firstName} ${user?.lastName}`}
+            description={`${user?.playlistsCount} public playlists`}
+            // image="../me2-no-bg.png"
             roundImage
         >
             <Box color="white" paddingX="40px">
@@ -128,40 +130,6 @@ const Home = (props: { spotifyData: any; artists: any }) => {
     );
 };
 
-// export async function getStaticProps(){
-//     const clientId = process.env.SPOTIFY_CLIENT_ID;
-//     const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
-//     const accessTokenData = await fetch("https://accounts.spotify.com/api/token",
-//         {
-//             method: 'POST',
-//             body: 'grant_type=client_credentials&client_id=' + clientId + '&client_secret=' + clientSecret,
-//             headers: {
-//                 'Content-Type': 'application/x-www-form-urlencoded'
-//             }
-//         }).then(response => response.json());
-
-//     // console.log(accessTokenData);
-//     const accessToken = accessTokenData.access_token;
-//     // console.log(accessToken);
-//     const spotifyData = await fetch("https://api.spotify.com/v1/browse/new-releases?country=NP",
-//         {
-//             headers: {
-//                 Authorization: `Bearer ${accessToken}`
-//             }
-//         }).then(response => response.json());
-
-//     console.log(spotifyData.albums.items[5]);
-//     // console.log(data.albums.items[5].artists[0].external_urls);
-
-//     const artists = await prisma.artist.findMany({})
-
-//     return {
-//         props : {
-//             spotifyData: spotifyData
-//         }
-//     }
-// }
-
 export const getServerSideProps = async () => {
     const artists = await prisma.artist.findMany({});
 
@@ -201,3 +169,37 @@ export const getServerSideProps = async () => {
 };
 
 export default Home;
+
+// export async function getStaticProps(){
+//     const clientId = process.env.SPOTIFY_CLIENT_ID;
+//     const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
+//     const accessTokenData = await fetch("https://accounts.spotify.com/api/token",
+//         {
+//             method: 'POST',
+//             body: 'grant_type=client_credentials&client_id=' + clientId + '&client_secret=' + clientSecret,
+//             headers: {
+//                 'Content-Type': 'application/x-www-form-urlencoded'
+//             }
+//         }).then(response => response.json());
+
+//     // console.log(accessTokenData);
+//     const accessToken = accessTokenData.access_token;
+//     // console.log(accessToken);
+//     const spotifyData = await fetch("https://api.spotify.com/v1/browse/new-releases?country=NP",
+//         {
+//             headers: {
+//                 Authorization: `Bearer ${accessToken}`
+//             }
+//         }).then(response => response.json());
+
+//     console.log(spotifyData.albums.items[5]);
+//     // console.log(data.albums.items[5].artists[0].external_urls);
+
+//     const artists = await prisma.artist.findMany({})
+
+//     return {
+//         props : {
+//             spotifyData: spotifyData
+//         }
+//     }
+// }

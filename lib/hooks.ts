@@ -9,15 +9,15 @@ export const useMe = () => {
         user: data,
         isLoading: !data && !error,
         isError: error,
-    }
- }
+    };
+};
 
 export const usePlaylist = () => {
     const { data, error } = useSWR('/playlist', fetcher);
-    console.log(data);
+    // console.log(data);
     return {
         playlists: (data as any) || [],
         isLoading: !data && !error,
         isError: error,
-    }
-}
+    };
+};
