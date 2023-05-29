@@ -8,6 +8,9 @@
 #db
 /docker-data
 /songs
+/podcasts
+/public/songs
+/public/podcasts
 
 # testing
 /coverage

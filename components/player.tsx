@@ -22,7 +22,7 @@ import { useStoreActions } from 'easy-peasy';
 import { formatTime } from '../lib/formatters';
 
 const Player = ({ songs, activeSong }) => {
-    const [playing, setPlaying] = useState(false);
+    const [playing, setPlaying] = useState(true);
     const [index, setIndex] = useState(
         songs.findIndex((song) => song.id === activeSong.id)
     );
@@ -116,7 +116,8 @@ const Player = ({ songs, activeSong }) => {
             <Box>
                 <ReactHowler
                     playing={playing}
-                    src={activeSong?.url}
+                    // src={activeSong?.url}
+                    src="/songs/Bipul Chettri/wildfire.mp3"
                     ref={soundRef}
                     onLoad={onLoad}
                     onEnd={onEnd}

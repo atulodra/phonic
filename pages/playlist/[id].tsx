@@ -1,8 +1,8 @@
+import { Song } from '@prisma/client';
 import prisma from '../../lib/prisma';
 import { validateToken } from '../../lib/auth';
 import PagesLayout from '../../components/pagesLayout';
 import { Box } from '@chakra-ui/react';
-import { Song } from '@prisma/client';
 import SongTable from '../../components/songTable';
 
 const Imager = () => {
@@ -23,6 +23,7 @@ const Playlist = ({ playlist }) => {
             subtitle="playlist"
             description={`${playlist.songs.length} songs`}
             image={false}
+            id={playlist.id}
         >
             <SongTable songs={playlist.songs} />
         </PagesLayout>

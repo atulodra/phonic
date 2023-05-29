@@ -32,20 +32,7 @@ model Song {
     duration  Int
     genres    String[]
     url       String
-    // Premium
-    // Album
-    // Album     Album?     @relation(fields: [albumId], references: [id])
-    // albumId   Int?
 }
-
-//Album model
-// model Album {
-//     id       Int      @id @default(autoincrement())
-//     createAt DateTime @default(now())
-//     artist   Artist   @relation(fields: [artistId], references: [id])
-//     songs    Song[]
-//     artistId Int
-// }
 
 model Artist {
     id        Int      @id @default(autoincrement())
@@ -53,8 +40,6 @@ model Artist {
     updatedAt DateTime @updatedAt
     songs     Song[]
     name      String   @unique
-    //
-    // Album     Album[]
 }
 
 model Playlist {

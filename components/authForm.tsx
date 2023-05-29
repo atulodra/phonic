@@ -1,6 +1,5 @@
 // import { Box, Flex, Input, Button } from '@chakra-ui/react';
 import {
-    Flex,
     Box,
     FormControl,
     FormLabel,
@@ -8,19 +7,15 @@ import {
     Stack,
     Link,
     Button,
-    Heading,
     Text,
-    useColorModeValue,
     Image,
     Center,
     HStack,
     VStack,
     AbsoluteCenter,
-    usePrefersReducedMotion,
 } from '@chakra-ui/react';
 
 import { useRouter } from 'next/router';
-import { useSWRConfig } from 'swr';
 import { FC, useState } from 'react';
 // import NextImage from 'next/image';
 import { auth } from '../lib/mutations';
@@ -34,7 +29,7 @@ const AuthForm: FC<{ mode: 'signin' | 'signup' }> = ({ mode }) => {
 
     const router = useRouter();
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
         setIsLoading(true);
 
@@ -198,11 +193,17 @@ const AuthForm: FC<{ mode: 'signin' | 'signup' }> = ({ mode }) => {
                         overflow-x="hidden"
                         right="0"
                         bgImage="url('pexels-wendy-wei-1864642 1@2x.jpg')"
+                        // bgImage="url('Atomic Bush.jpeg')"
                         bgRepeat="no-repeat"
                         bgSize="contain"
                         bgPos="50% 90%"
                         color="white"
                         bgColor="#000200"
+                        sx={{
+                            border: '15px solid black',
+                            'box-shadow':
+                                '0px 0px 0px 5px rgba(226, 226, 222, 0.8) inset',
+                        }}
                     >
                         <Text
                             fontSize="2.5rem"

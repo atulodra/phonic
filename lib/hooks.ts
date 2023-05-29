@@ -14,9 +14,17 @@ export const useMe = () => {
 
 export const usePlaylist = () => {
     const { data, error } = useSWR('/playlist', fetcher);
-    // console.log(data);
     return {
         playlists: (data as any) || [],
+        isLoading: !data && !error,
+        isError: error,
+    };
+};
+
+export const useResults = (query) => {
+    const { data, error } = useSWR(`/search${query}`, fetcher);
+    return {
+        results: data,
         isLoading: !data && !error,
         isError: error,
     };
