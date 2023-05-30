@@ -19,6 +19,8 @@ import {
     Image,
     Center,
     Divider,
+    Grid,
+    GridItem,
 } from '@chakra-ui/react';
 
 import { Artist } from '@prisma/client';
@@ -46,15 +48,17 @@ const Home = (props: { artists: any }) => {
             description={`${user?.playlistsCount} public playlists`}
             // image="../me2-no-bg.png"
         >
-            <Box color="white" paddingX="40px">
+            <Divider />
+            <Box color="white" paddingX="40px" marginTop="40px">
                 <Box marginBottom="40px">
                     <Text fontSize="2xl" fontWeight="bold">
                         Top artist this month
                     </Text>
                     <Text fontSize="md">only visible to you</Text>
                 </Box>
-                <Flex>
-                    {artists.map((artist: Artist) => (
+
+                {/* <Flex>
+                    {artists.slice(0, 6).map((artist: Artist) => (
                         <Box paddingX="10px" width="20%">
                             <Box
                                 bg="gray.900"
@@ -73,7 +77,47 @@ const Home = (props: { artists: any }) => {
                             </Box>
                         </Box>
                     ))}
-                </Flex>
+                </Flex> */}
+                <Grid
+                    h="200px"
+                    templateRows="repeat(2, 1fr)"
+                    templateColumns="repeat(3, 1fr)"
+                    gap={4}
+                    paddingX="5rem"
+                >
+                    {artists.slice(0, 6).map((artist: Artist) => (
+                        <GridItem paddingX="10px">
+                            <Flex
+                                bg="schemeTwo.bodyPink"
+                                borderRadius="1.5rem"
+                                padding="15px"
+                                width="100%"
+                                direction="column"
+                                justify="center"
+                                align="center"
+                            >
+                                <Box
+                                    width="200px"
+                                    height="200px"
+                                    borderRadius="100%"
+                                    position="relative"
+                                    overflow="hidden"
+                                >
+                                    <Image
+                                        src={`/${artist.name}.jpg`}
+                                        objectFit="cover"
+                                        max-width="100%"
+                                    />
+                                </Box>
+
+                                <Box marginTop="20px">
+                                    <Text fontSize="large">{artist.name}</Text>
+                                    <Text fontSize="x-small">Artist</Text>
+                                </Box>
+                            </Flex>
+                        </GridItem>
+                    ))}
+                </Grid>
             </Box>
             {/* <Box>
                 <Heading color="#DCD5D5">New Releases From Spotify</Heading>

@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from '@chakra-ui/layout';
+import { Box, Divider, Flex, Text } from '@chakra-ui/layout';
 import {
     Button,
     ButtonGroup,
@@ -118,6 +118,7 @@ const PagesLayout = ({
                             display="flex"
                             justifyContent="space-between"
                             alignItems="center"
+                            position="sticky"
                         >
                             <Text fontSize="5xl">{title}</Text>
                             <Text
@@ -137,6 +138,7 @@ const PagesLayout = ({
                     <Text fontSize="xs">{description}</Text>
                 </Box>
             </Flex>
+            <Divider />
             <Box paddingTop="30px">{children}</Box>
         </Box>
     );

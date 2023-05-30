@@ -22,9 +22,11 @@ import {
     FiHome,
     FiMusic,
     FiHeart,
-    FiRadio,
-    FiPlusCircle,
+    // FiRadio,
+    // FiPlusCircle,
 } from 'react-icons/fi';
+
+import { BsMusicNoteList } from 'react-icons/bs';
 
 import { Playlist } from '@prisma/client';
 import { usePlaylist } from '../lib/hooks';
@@ -40,11 +42,11 @@ const navMenu = [
         icon: FiMusic,
         route: '/music',
     },
-    {
-        name: 'Podcast',
-        icon: FiRadio,
-        route: '/podcast',
-    },
+    // {
+    //     name: 'Podcast',
+    //     icon: FiRadio,
+    //     route: '/podcast',
+    // },
 ];
 
 const libraryMenu = [
@@ -62,8 +64,8 @@ const libraryMenu = [
 
 const playlistsMenu = [
     {
-        name: 'Create Playlist',
-        icon: FiPlusCircle,
+        name: 'Your Playlists',
+        icon: BsMusicNoteList,
         route: '/playlists',
     },
 ];

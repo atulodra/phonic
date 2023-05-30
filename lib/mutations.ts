@@ -27,6 +27,6 @@ export const editFavSong = (body: { song: Song; action: 'Add' | 'Remove' }) => {
     return updater('/favourites', body);
 };
 
-// export const removeFavSong = (body: { song: Song }) => {
-//     return updater('/favourites', body);
-// };
+export const newPlaylist = (body: { title: string }) => {
+    return updater('/playlist', body);
+};

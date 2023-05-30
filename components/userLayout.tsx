@@ -1,4 +1,4 @@
-import { Flex, Box, Text } from '@chakra-ui/layout';
+import { Flex, Box, Text, Divider } from '@chakra-ui/layout';
 import { Image } from '@chakra-ui/react';
 
 const UserLayout = ({ children, image, title, subtitle, description }) => {
