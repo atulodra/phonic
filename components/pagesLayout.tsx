@@ -91,7 +91,7 @@ const PagesLayout = ({
                                 }
                             />
                             <ButtonGroup justifyContent="center" size="sm">
-                                <IconButton
+                                {/* <IconButton
                                     aria-label="Confirm New Title"
                                     icon={<FiCheckSquare />}
                                     type="submit"
@@ -100,7 +100,7 @@ const PagesLayout = ({
                                         background: '#d842e2',
                                         color: '#fff',
                                     }}
-                                />
+                                /> */}
                                 <IconButton
                                     aria-label="Cancel New Title"
                                     icon={<MdClose />}

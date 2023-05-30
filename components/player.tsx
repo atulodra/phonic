@@ -116,8 +116,8 @@ const Player = ({ songs, activeSong }) => {
             <Box>
                 <ReactHowler
                     playing={playing}
-                    // src={activeSong?.url}
-                    src="/songs/Bipul Chettri/wildfire.mp3"
+                    src={activeSong?.url}
+                    // src="/songs/Bipul Chettri/wildfire.mp3"
                     ref={soundRef}
                     onLoad={onLoad}
                     onEnd={onEnd}

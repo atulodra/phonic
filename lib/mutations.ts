@@ -1,3 +1,4 @@
+import { Song } from '@prisma/client';
 import fetcher from './fetcher';
 import updater from './updater';
 
@@ -19,5 +20,9 @@ export const playlistTitleUpdater = (
         newTitle: string;
     }
 ) => {
-    return updater(`/playlist/${id}`, body);
+    return fetcher(`/playlist/${id}`, body);
+};
+
+export const addFavSong = (body: { song: Song }) => {
+    return fetcher('/favourites', body);
 };

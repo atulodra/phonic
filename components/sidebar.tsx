@@ -235,7 +235,7 @@ const Sidebar = () => {
                     }}
                 >
                     <List spacing={3}>
-                        {playlists.map((playlist: Playlist) => (
+                        {playlists?.map((playlist: Playlist) => (
                             <ListItem
                                 paddingX="20px"
                                 fontSize="16px"
