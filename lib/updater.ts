@@ -10,7 +10,7 @@ const updater = (url: string, data = undefined) => {
         if (res.status > 399 && res.status < 200) {
             throw new Error();
         }
-        return res.json();
+        // return res.json();
     });
 };
 

@@ -9,25 +9,51 @@ export default validateRoute(
                 where: {
                     userId: user.id,
                 },
-            });
-            res.json(favSongs);
-        }
-        if (req.method === 'POST') {
-            const { song } = req.body;
-            console.log(song);
-            await prisma.user.update({
-                where: {
-                    id: user.id,
-                },
-                data: {
-                    favourites: {
-                        connect: {
-                            id: song.id,
+                include: {
+                    artist: {
+                        select: {
+                            name: true,
+                            id: true,
                         },
                     },
                 },
             });
-            res.end();
+            res.json(favSongs);
+        }
+        if (req.method === 'POST') {
+            const { song, action } = req.body;
+            console.log(song);
+            console.log(action);
+            if (action === 'Add') {
+                await prisma.user.update({
+                    where: {
+                        id: user.id,
+                    },
+                    data: {
+                        favourites: {
+                            connect: {
+                                id: song.id,
+                            },
+                        },
+                    },
+                });
+                res.end();
+            }
+            if (action === 'Remove') {
+                await prisma.user.update({
+                    where: {
+                        id: user.id,
+                    },
+                    data: {
+                        favourites: {
+                            disconnect: {
+                                id: song.id,
+                            },
+                        },
+                    },
+                });
+                res.end();
+            }
         }
     }
 );
