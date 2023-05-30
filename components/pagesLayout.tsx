@@ -1,16 +1,42 @@
-import { Box, Flex, Text } from '@chakra-ui/layout';
-import { Image } from '@chakra-ui/react';
-import { validateToken } from '../lib/auth';
+import { Box, Divider, Flex, Text } from '@chakra-ui/layout';
+import {
+    Button,
+    ButtonGroup,
+    IconButton,
+    Image,
+    Input,
+} from '@chakra-ui/react';
+import { FiCheckSquare, FiEdit } from 'react-icons/fi';
+import { MdClose } from 'react-icons/md';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { playlistTitleUpdater } from '../lib/mutations';
 
 const PagesLayout = ({
     // color,
     children,
-    image,
     title,
     subtitle,
     description,
-    roundImage,
+    id,
 }) => {
+    const [playlistTitle, setPlaylistTitle] = useState(title);
+    const [editable, setEditable] = useState(false);
+
+    const router = useRouter();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const newTitle = playlistTitle;
+
+        if (newTitle !== title) {
+            await playlistTitleUpdater(id, {
+                newTitle,
+            });
+            // setEditable(false);
+            router.reload();
+        }
+    };
+
     return (
         <Box
             height="100%"
@@ -41,28 +67,78 @@ const PagesLayout = ({
             }}
         >
             <Flex align="end">
-                {(image || roundImage) && (
-                    <Box padding="20px">
-                        <Image
-                            boxSize="160px"
-                            objectFit="cover"
-                            boxShadow="2xl"
-                            src={image}
-                            borderRadius={roundImage ? '100%' : '3px'}
-                            // fallbackSrc="https://via.placeholder.com/150"
-                            fallbackSrc="https://placekitten.com/408/287"
-                        />
-                    </Box>
-                )}
-                <Box padding="20px" lineHeight="40px">
+                {/* <Box padding="20px">
+                    <Image
+                        boxSize="160px"
+                        objectFit="cover"
+                        boxShadow="2xl"
+                        src={image}
+                        borderRadius={roundImage ? '100%' : '3px'}
+                        // fallbackSrc="https://via.placeholder.com/150"
+                        fallbackSrc="https://placekitten.com/408/287"
+                    />
+                </Box> */}
+                <Box padding="20px" lineHeight="40px" width="80%">
                     <Text fontSize="xs" fontWeight="bold" casing="uppercase">
                         {subtitle}
                     </Text>
-                    {/* // TODO Make title editable and save it to DB  */}
-                    <Text fontSize="5xl">{title}</Text>
+                    {editable ? (
+                        <form onSubmit={handleSubmit}>
+                            <Input
+                                placeholder="Enter New Playlist Name"
+                                onChange={(e) =>
+                                    setPlaylistTitle(e.target.value)
+                                }
+                            />
+                            <ButtonGroup justifyContent="center" size="sm">
+                                {/* <IconButton
+                                    aria-label="Confirm New Title"
+                                    icon={<FiCheckSquare />}
+                                    type="submit"
+                                    variant="outline"
+                                    _hover={{
+                                        background: '#d842e2',
+                                        color: '#fff',
+                                    }}
+                                /> */}
+                                <IconButton
+                                    aria-label="Cancel New Title"
+                                    icon={<MdClose />}
+                                    onClick={() => setEditable(false)}
+                                    variant="outline"
+                                    _hover={{
+                                        background: '#d842e2',
+                                        color: '#fff',
+                                    }}
+                                />
+                            </ButtonGroup>
+                        </form>
+                    ) : (
+                        <Box
+                            display="flex"
+                            justifyContent="space-between"
+                            alignItems="center"
+                            position="sticky"
+                        >
+                            <Text fontSize="5xl">{title}</Text>
+                            <Text
+                                fontSize="x-small"
+                                onClick={() => setEditable(true)}
+                                sx={{
+                                    '&:hover': {
+                                        cursor: 'pointer',
+                                    },
+                                }}
+                                alignSelf="flex-end"
+                            >
+                                Edit
+                            </Text>
+                        </Box>
+                    )}
                     <Text fontSize="xs">{description}</Text>
                 </Box>
             </Flex>
+            <Divider />
             <Box paddingTop="30px">{children}</Box>
         </Box>
     );

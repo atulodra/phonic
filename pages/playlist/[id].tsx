@@ -1,21 +1,23 @@
+import { Song } from '@prisma/client';
+import { Box } from '@chakra-ui/react';
 import prisma from '../../lib/prisma';
 import { validateToken } from '../../lib/auth';
 import PagesLayout from '../../components/pagesLayout';
-import { Box } from '@chakra-ui/react';
-import { Song } from '@prisma/client';
 import SongTable from '../../components/songTable';
+import { useFavs } from '../../lib/hooks';
 
-const Imager = () => {
-    // TODO a div to make an image from first four songs, move this to pageslayout
+// const Imager = () => {
+//     // TODO a div to make an image from first four songs, move this to pageslayout
 
-    return (
-        <Box padding="20px" display="grid">
-            <div>this</div>
-        </Box>
-    );
-};
+//     return (
+//         <Box padding="20px" display="grid">
+//             <div>this</div>
+//         </Box>
+//     );
+// };
 
 const Playlist = ({ playlist }) => {
+    const { favSongs } = useFavs();
     return (
         <PagesLayout
             roundImage={false}
@@ -23,8 +25,9 @@ const Playlist = ({ playlist }) => {
             subtitle="playlist"
             description={`${playlist.songs.length} songs`}
             image={false}
+            id={playlist.id}
         >
-            <SongTable songs={playlist.songs} />
+            <SongTable songs={playlist.songs} favSongs={favSongs} />
         </PagesLayout>
     );
 };
@@ -38,7 +41,7 @@ export const getServerSideProps = async ({ query, req }) => {
         return {
             redirect: {
                 permanent: false,
-                path: '/signin',
+                destination: '/signin',
             },
         };
     }

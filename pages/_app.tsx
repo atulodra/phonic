@@ -27,6 +27,8 @@ const theme = extendTheme({
             textColor2: '#C4B1B1',
             hoverColor: '#F08A6A',
             songArtistInfoBorder: 'rgba(82, 51, 51, 0.1)',
+            searchBg: '#441c38',
+            searchText: '#e8e0e0',
         },
     },
     styles: {

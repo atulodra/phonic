@@ -1,23 +1,27 @@
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 // import { artistsData } from './songsData'
-import { myArtistsData } from './songData2';
+// import { myArtistsData } from './songData2';
+import { mainArtistsData } from './mainSongData';
 
 const prisma = new PrismaClient();
 
 const run = async () => {
     await Promise.all(
-        myArtistsData.map(async (artist) => {
+        mainArtistsData.map(async (artist) => {
             return prisma.artist.upsert({
-                where: { name: artist.name },
+                where: {
+                    name: artist.name,
+                },
                 update: {},
                 create: {
                     name: artist.name,
+                    img: artist.img,
+                    genres: artist.genres,
                     songs: {
                         create: artist.songs.map((song) => ({
                             name: song.name,
                             duration: song.duration,
-                            genres: song.genres?.map((genre: string) => genre),
                             url: song.url,
                         })),
                     },
@@ -40,7 +44,7 @@ const run = async () => {
 
     const songs = await prisma.song.findMany({});
     await Promise.all(
-        new Array(10).fill(1).map(async (_, i) => {
+        new Array(2).fill(1).map(async (_, i) => {
             return prisma.playlist.create({
                 data: {
                     name: `Playlist #${i + 1}`,

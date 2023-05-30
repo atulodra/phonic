@@ -19,46 +19,46 @@ import {
     Image,
     Center,
     Divider,
+    Grid,
+    GridItem,
 } from '@chakra-ui/react';
-import {
-    ReactElement,
-    JSXElementConstructor,
-    ReactFragment,
-    ReactPortal,
-} from 'react';
+
 import { Artist } from '@prisma/client';
 import prisma from '../lib/prisma';
 import PagesLayout from '../components/pagesLayout';
 import { useMe } from '../lib/hooks';
+import UserLayout from '../components/userLayout';
 
-const Home = (props: { spotifyData: any; artists: any }) => {
-    const { spotifyData, artists } = props;
-    // const { artists } = props;
+// const Home = (props: { spotifyData: any; artists: any }) => {
+const Home = (props: { artists: any }) => {
+    // const { spotifyData, artists } = props;
+    const { artists } = props;
     const { user } = useMe();
 
-    const newAlbums = [
-        spotifyData.albums.items[0],
-        spotifyData.albums.items[1],
-        spotifyData.albums.items[3],
-    ];
+    // const newAlbums = [
+    //     spotifyData.albums.items[0],
+    //     spotifyData.albums.items[1],
+    //     spotifyData.albums.items[3],
+    // ];
     // console.log(data);
     return (
-        <PagesLayout
+        <UserLayout
             subtitle="profile"
             title={`${user?.firstName} ${user?.lastName}`}
             description={`${user?.playlistsCount} public playlists`}
             // image="../me2-no-bg.png"
-            roundImage
         >
-            <Box color="white" paddingX="40px">
+            <Divider />
+            <Box color="white" paddingX="40px" marginTop="40px">
                 <Box marginBottom="40px">
                     <Text fontSize="2xl" fontWeight="bold">
                         Top artist this month
                     </Text>
                     <Text fontSize="md">only visible to you</Text>
                 </Box>
-                <Flex>
-                    {artists.map((artist: Artist) => (
+
+                {/* <Flex>
+                    {artists.slice(0, 6).map((artist: Artist) => (
                         <Box paddingX="10px" width="20%">
                             <Box
                                 bg="gray.900"
@@ -77,9 +77,49 @@ const Home = (props: { spotifyData: any; artists: any }) => {
                             </Box>
                         </Box>
                     ))}
-                </Flex>
+                </Flex> */}
+                <Grid
+                    h="200px"
+                    templateRows="repeat(2, 1fr)"
+                    templateColumns="repeat(3, 1fr)"
+                    gap={4}
+                    paddingX="5rem"
+                >
+                    {artists.slice(0, 6).map((artist: Artist) => (
+                        <GridItem paddingX="10px">
+                            <Flex
+                                bg="schemeTwo.bodyPink"
+                                borderRadius="1.5rem"
+                                padding="15px"
+                                width="100%"
+                                direction="column"
+                                justify="center"
+                                align="center"
+                            >
+                                <Box
+                                    width="200px"
+                                    height="200px"
+                                    borderRadius="100%"
+                                    position="relative"
+                                    overflow="hidden"
+                                >
+                                    <Image
+                                        src={`/${artist.name}.jpg`}
+                                        objectFit="cover"
+                                        max-width="100%"
+                                    />
+                                </Box>
+
+                                <Box marginTop="20px">
+                                    <Text fontSize="large">{artist.name}</Text>
+                                    <Text fontSize="x-small">Artist</Text>
+                                </Box>
+                            </Flex>
+                        </GridItem>
+                    ))}
+                </Grid>
             </Box>
-            <Box>
+            {/* <Box>
                 <Heading color="#DCD5D5">New Releases From Spotify</Heading>
                 <Divider marginY="10px" />
                 <Flex columnGap="20px" align="center">
@@ -118,52 +158,47 @@ const Home = (props: { spotifyData: any; artists: any }) => {
                                         {album.artists[0].name}
                                     </Text>
                                 </Box>
-                                {/* <Box>
-                                        <Text fontSize="16">Song</Text>
-                                    </Box> */}
                             </CardFooter>
                         </Card>
                     ))}
                 </Flex>
-            </Box>
-        </PagesLayout>
+            </Box> */}
+        </UserLayout>
     );
 };
 
 export const getServerSideProps = async () => {
     const artists = await prisma.artist.findMany({});
 
-    const clientId = process.env.SPOTIFY_CLIENT_ID;
-    const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
-    const accessTokenData = await fetch(
-        'https://accounts.spotify.com/api/token',
-        {
-            method: 'POST',
-            body: `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}`,
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-        }
-    ).then((response) => response.json());
+    // const clientId = process.env.SPOTIFY_CLIENT_ID;
+    // const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
+    // const accessTokenData = await fetch(
+    //     'https://accounts.spotify.com/api/token',
+    //     {
+    //         method: 'POST',
+    //         body: `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}`,
+    //         headers: {
+    //             'Content-Type': 'application/x-www-form-urlencoded',
+    //         },
+    //     }
+    // ).then((response) => response.json());
 
-    // console.log(accessTokenData);
-    const accessToken = accessTokenData.access_token;
-    // console.log(accessToken);
-    const spotifyData = await fetch(
-        'https://api.spotify.com/v1/browse/new-releases?country=NP',
-        {
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
-        }
-    ).then((response) => response.json());
+    // const accessToken = accessTokenData.access_token;
+    // const spotifyData = await fetch(
+    //     'https://api.spotify.com/v1/browse/new-releases?country=NP',
+    //     {
+    //         headers: {
+    //             Authorization: `Bearer ${accessToken}`,
+    //         },
+    //     }
+    // ).then((response) => response.json());
 
-    console.log(spotifyData.albums.items[5]);
+    // console.log(spotifyData.albums.items[5]);
 
     return {
         props: {
             artists: JSON.parse(JSON.stringify(artists)),
-            spotifyData,
+            // spotifyData,
         },
     };
 };
