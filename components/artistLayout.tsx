@@ -1,4 +1,5 @@
 import { Flex, Box, Text, Divider } from '@chakra-ui/layout';
+import NextLink from 'next/link';
 import {
     Image,
     HStack,
@@ -62,14 +63,22 @@ const ArtistLayout = ({ children, image, title, genres, description }) => {
                     <Text fontSize="xs">{description}</Text>
                     <HStack spacing={4} marginTop="1.8rem">
                         {genres?.map((genre: string) => (
-                            <Tag
-                                size="md"
-                                key={genre}
-                                variant="solid"
-                                colorScheme="pink"
+                            <NextLink
+                                href={{
+                                    pathname: '/genre/[id]',
+                                    query: { id: genre },
+                                }}
+                                // passHref
                             >
-                                {genre}
-                            </Tag>
+                                <Tag
+                                    size="md"
+                                    key={genre}
+                                    variant="solid"
+                                    colorScheme="pink"
+                                >
+                                    {genre}
+                                </Tag>
+                            </NextLink>
                         ))}
                     </HStack>
                 </Box>

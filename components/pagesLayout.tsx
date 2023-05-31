@@ -11,6 +11,7 @@ import { MdClose } from 'react-icons/md';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { playlistTitleUpdater } from '../lib/mutations';
+import Imager from './imager';
 
 const PagesLayout = ({
     // color,
@@ -19,6 +20,7 @@ const PagesLayout = ({
     subtitle,
     description,
     id,
+    forImager,
 }) => {
     const [playlistTitle, setPlaylistTitle] = useState(title);
     const [editable, setEditable] = useState(false);
@@ -67,17 +69,21 @@ const PagesLayout = ({
             }}
         >
             <Flex align="end">
-                {/* <Box padding="20px">
-                    <Image
-                        boxSize="160px"
-                        objectFit="cover"
-                        boxShadow="2xl"
-                        src={image}
-                        borderRadius={roundImage ? '100%' : '3px'}
-                        // fallbackSrc="https://via.placeholder.com/150"
-                        fallbackSrc="https://placekitten.com/408/287"
-                    />
-                </Box> */}
+                {forImager.length > 0 ? (
+                    <Imager artists={forImager} />
+                ) : (
+                    <Box padding="20px">
+                        <Image
+                            boxSize="160px"
+                            objectFit="cover"
+                            boxShadow="2xl"
+                            borderRadius="3px"
+                            // fallbackSrc="https://via.placeholder.com/150"
+                            fallbackSrc="https://placekitten.com/408/287"
+                        />
+                    </Box>
+                )}
+
                 <Box padding="20px" lineHeight="40px" width="80%">
                     <Text fontSize="xs" fontWeight="bold" casing="uppercase">
                         {subtitle}

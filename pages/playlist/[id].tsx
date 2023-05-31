@@ -1,31 +1,22 @@
 import { Song } from '@prisma/client';
-import { Box } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 import prisma from '../../lib/prisma';
 import { validateToken } from '../../lib/auth';
 import PagesLayout from '../../components/pagesLayout';
 import SongTable from '../../components/songTable';
 import { useFavs } from '../../lib/hooks';
 
-// const Imager = () => {
-//     // TODO a div to make an image from first four songs, move this to pageslayout
-
-//     return (
-//         <Box padding="20px" display="grid">
-//             <div>this</div>
-//         </Box>
-//     );
-// };
-
-const Playlist = ({ playlist }) => {
+const Playlist = ({ playlist, artists }) => {
     const { favSongs } = useFavs();
+    console.log(artists);
+
     return (
         <PagesLayout
-            roundImage={false}
             title={playlist.name}
             subtitle="playlist"
             description={`${playlist.songs.length} songs`}
-            image={false}
             id={playlist.id}
+            forImager={artists}
         >
             <SongTable songs={playlist.songs} favSongs={favSongs} />
         </PagesLayout>
@@ -64,10 +55,24 @@ export const getServerSideProps = async ({ query, req }) => {
             },
         },
     });
+    const artistsId = playlist.songs
+        .map((song) => song.artistId)
+        .filter((x, i, a) => a.indexOf(x) === i)
+        .slice(0, 4);
+
+    const artists = await prisma.artist.findMany({
+        where: {
+            OR: artistsId.map((id) => ({
+                id,
+            })),
+        },
+    });
+    console.log(artists);
 
     return {
         props: {
             playlist: JSON.parse(JSON.stringify(playlist)),
+            artists: JSON.parse(JSON.stringify(artists)),
         },
     };
 };

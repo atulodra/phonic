@@ -12,7 +12,7 @@ const Artist = ({ artist, relatedArtists }) => {
     const { favSongs } = useFavs();
     // console.log(artist.genres);
     // console.log(relatedArtists);
-    const title = 'Related Artists';
+    // const title = 'Related Artists';
 
     return (
         <>

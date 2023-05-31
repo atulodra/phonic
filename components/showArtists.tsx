@@ -41,6 +41,7 @@ const ShowArtists = ({ artists, title }) => {
                             pathname: '/artist/[id]',
                             query: { id: artist.id },
                         }}
+                        key={artist.id}
                         // passHref
                     >
                         <Flex
