@@ -25,7 +25,7 @@ const PlayerBar = () => {
                         gap="0.8rem"
                         // marginBottom="20px"
                     >
-                        <Box marginRight="1rem">
+                        <Box marginRight="1rem" justifySelf="flex-start">
                             <NextLink
                                 href={{
                                     pathname: '/artist/[id]',
@@ -41,9 +41,26 @@ const PlayerBar = () => {
                                 />
                             </NextLink>
                         </Box>
-                        <Box>
-                            <Text fontSize="20">{activeSong.name}</Text>
-                            <Text fontSize="16">{activeSong.artist.name}</Text>
+                        <Box justifySelf="flex-end" overflow="hidden">
+                            <Box
+                                overflow="hidden"
+                                wordBreak="break-all"
+                                whiteSpace="nowrap"
+                                textOverflow="ellipsis"
+                            >
+                                <Text fontSize="18">{activeSong.name}</Text>
+                            </Box>
+                            <NextLink
+                                href={{
+                                    pathname: '/artist/[id]',
+                                    query: { id: activeSong.artist.id },
+                                }}
+                                // passHref
+                            >
+                                <Text fontSize="14">
+                                    {activeSong.artist.name}
+                                </Text>
+                            </NextLink>
                         </Box>
                     </Box>
                 ) : null}

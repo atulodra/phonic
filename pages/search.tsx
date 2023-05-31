@@ -62,10 +62,10 @@ const SearchPage = () => {
                     </Text>
                 </Box>
             )}
+            <Divider />
 
-            <Box paddingX="2rem" marginTop="1rem" fontSize="4xl">
-                <Text>Songs</Text>
-                <Divider />
+            <Box paddingX="2rem" marginTop="1rem">
+                <Text fontSize="4xl">Songs</Text>
                 {results?.songs.length > 0 ? (
                     <SongTable songs={results?.songs} favSongs={favSongs} />
                 ) : (
