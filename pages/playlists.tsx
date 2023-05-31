@@ -110,7 +110,7 @@ const Playlists = ({ playlists }) => {
             >
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Create your account</ModalHeader>
+                    <ModalHeader>Create a new Playlist</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody pb={6}>
                         <form onSubmit={handleSubmit}>

@@ -22,7 +22,7 @@ import {
     Grid,
     GridItem,
 } from '@chakra-ui/react';
-
+import NextLink from 'next/link';
 import { Artist } from '@prisma/client';
 import prisma from '../lib/prisma';
 import PagesLayout from '../components/pagesLayout';
@@ -49,72 +49,65 @@ const Home = (props: { artists: any }) => {
             // image="../me2-no-bg.png"
         >
             <Divider />
-            <Box color="white" paddingX="40px" marginTop="40px">
+            <Box
+                color="white"
+                paddingX="40px"
+                marginTop="40px"
+                marginBottom="3rem"
+            >
                 <Box marginBottom="40px">
                     <Text fontSize="2xl" fontWeight="bold">
                         Top artist this month
                     </Text>
-                    <Text fontSize="md">only visible to you</Text>
+                    {/* <Text fontSize="md">only visible to you</Text> */}
                 </Box>
-
-                {/* <Flex>
-                    {artists.slice(0, 6).map((artist: Artist) => (
-                        <Box paddingX="10px" width="20%">
-                            <Box
-                                bg="gray.900"
-                                borderRadius="4px"
-                                padding="15px"
-                                width="100%"
-                            >
-                                <Image
-                                    src="https://placekitten.com/300/300"
-                                    borderRadius="100%"
-                                />
-                                <Box marginTop="20px">
-                                    <Text fontSize="large">{artist.name}</Text>
-                                    <Text fontSize="x-small">Artist</Text>
-                                </Box>
-                            </Box>
-                        </Box>
-                    ))}
-                </Flex> */}
                 <Grid
                     h="200px"
                     templateRows="repeat(2, 1fr)"
                     templateColumns="repeat(3, 1fr)"
                     gap={4}
-                    paddingX="5rem"
+                    paddingX="4rem"
                 >
                     {artists.slice(0, 6).map((artist: Artist) => (
-                        <GridItem paddingX="10px">
-                            <Flex
-                                bg="schemeTwo.bodyPink"
-                                borderRadius="1.5rem"
+                        <GridItem
+                            padding="20px"
+                            boxShadow="dark-lg"
+                            justifySelf="center"
+                            bgGradient="linear(to-b,brand.2, brand.3, brand.4)"
+                        >
+                            <NextLink
+                                href={{
+                                    pathname: '/artist/[id]',
+                                    query: { id: artist.id },
+                                }}
+                                // passHref
+                            >
+                                {/* <Flex
+                                // bg="#71335e"
+                                bgGradient="linear(to-b,brand.2, brand.3, brand.4)"
+                                // borderRadius="1rem"
                                 padding="15px"
-                                width="100%"
+                                width="80%"
                                 direction="column"
                                 justify="center"
                                 align="center"
-                            >
-                                <Box
-                                    width="200px"
-                                    height="200px"
+                            > */}
+                                <Image
+                                    boxSize="180px"
+                                    objectFit="cover"
+                                    boxShadow="dark-lg"
+                                    src={`/${artist.name}.jpg`}
                                     borderRadius="100%"
-                                    position="relative"
-                                    overflow="hidden"
-                                >
-                                    <Image
-                                        src={`/${artist.name}.jpg`}
-                                        objectFit="cover"
-                                        max-width="100%"
-                                    />
-                                </Box>
-
+                                    // borderRadius={roundImage ? '100%' : '3px'}
+                                    // fallbackSrc="https://via.placeholder.com/150"
+                                    fallbackSrc="https://placekitten.com/408/287"
+                                />
                                 <Box marginTop="20px">
                                     <Text fontSize="large">{artist.name}</Text>
                                     <Text fontSize="x-small">Artist</Text>
                                 </Box>
-                            </Flex>
+                                {/* </Flex> */}
+                            </NextLink>
                         </GridItem>
                     ))}
                 </Grid>

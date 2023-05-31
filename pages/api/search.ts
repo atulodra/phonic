@@ -26,6 +26,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                         mode: 'insensitive',
                     },
                 },
+                include: {
+                    artist: true,
+                },
             });
             res.status(200).json({ artists, songs });
         } catch (error) {

@@ -41,17 +41,17 @@ const SongTable = ({ songs, favSongs }) => {
     //         }
     //     });
     // });
-    songs.forEach((song) => {
+    songs?.forEach((song) => {
         if (song.userId === null) {
             favourited[song.id] = false;
         } else {
             favourited[song.id] = true;
         }
     });
-    console.log(favourited);
+    // console.log(favourited);
 
     const [isFav, setIsFav] = useState(favourited);
-    console.log(isFav);
+    // console.log(isFav);
 
     const handlePlay = (activeSong?) => {
         setActiveSong(activeSong || songs[0]);
@@ -98,7 +98,7 @@ const SongTable = ({ songs, favSongs }) => {
                         </Tr>
                     </Thead>
                     <Tbody>
-                        {songs.map((song: Song, i) => (
+                        {songs?.map((song: Song, i) => (
                             <Tr
                                 sx={{
                                     transition: 'all .3s',
@@ -114,7 +114,7 @@ const SongTable = ({ songs, favSongs }) => {
                                 <Td onClick={() => handlePlay(song)}>
                                     {song.name}
                                 </Td>
-                                <Td>{song.artist.name}</Td>
+                                <Td>{song?.artist?.name}</Td>
                                 <Td>{formatDate(new Date(song.createdAt))}</Td>
                                 <Td>{formatTime(song.duration)}</Td>
                                 <Td>
