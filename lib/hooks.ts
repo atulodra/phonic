@@ -1,7 +1,7 @@
 import useSWR from 'swr';
 // import { Playlist } from '@prisma/client';
-import fetcher from './fetcher';
 import { Playlist } from '@prisma/client';
+import fetcher from './fetcher';
 
 export const useMe = () => {
     const { data, error } = useSWR('/me', fetcher);

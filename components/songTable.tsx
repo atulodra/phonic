@@ -19,12 +19,15 @@ import { useState } from 'react';
 import { formatDate, formatTime } from '../lib/formatters';
 // import { useMe } from '../lib/hooks';
 import { editFavSong } from '../lib/mutations';
+import { useMe } from '../lib/hooks';
 
 type Dict = { [key: number]: Boolean };
 
 const SongTable = ({ songs, favSongs }) => {
     const playSongs = useStoreActions((store) => store.changeActiveSongs);
     const setActiveSong = useStoreActions((store) => store.changeActiveSong);
+    const { user } = useMe();
+    console.log(user);
 
     const favourited: Dict = {};
     // console.log(favSongs);
@@ -45,10 +48,10 @@ const SongTable = ({ songs, favSongs }) => {
 
     if (songs.length > 0) {
         songs?.forEach((song) => {
-            if (song.userId === null) {
-                favourited[song.id] = false;
-            } else {
+            if (song.userId === user?.id) {
                 favourited[song.id] = true;
+            } else {
+                favourited[song.id] = false;
             }
         });
     }
