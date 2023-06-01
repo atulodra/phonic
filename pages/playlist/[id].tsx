@@ -8,7 +8,9 @@ import { useFavs } from '../../lib/hooks';
 
 const Playlist = ({ playlist, artists }) => {
     const { favSongs } = useFavs();
-    console.log(artists);
+    // console.log(favSongs);
+
+    // console.log(artists);
 
     return (
         <PagesLayout
@@ -67,7 +69,7 @@ export const getServerSideProps = async ({ query, req }) => {
             })),
         },
     });
-    console.log(artists);
+    // console.log(artists);
 
     return {
         props: {

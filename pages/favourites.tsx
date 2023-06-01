@@ -18,18 +18,22 @@ import { validateToken } from '../lib/auth';
 import prisma from '../lib/prisma';
 import { formatDate, formatTime } from '../lib/formatters';
 
-const Favourites = ({ favs }) => {
-    console.log(Array.isArray(favs));
-    const { favourites } = favs;
-    console.log(favs);
-    console.log(favourites);
+const Favourites = ({ songs }) => {
+    console.log(songs);
+    // const { favourite } = favs;
+    // console.log(favourite[0].song.artist.name);
+
+    // console.log(Array.isArray(favs));
+    // const { favourites } = favs;
+    // console.log(favs);
+    // console.log(favourites);
 
     const playSongs = useStoreActions((store) => store.changeActiveSongs);
     const setActiveSong = useStoreActions((store) => store.changeActiveSong);
 
     const handlePlay = (activeSong?) => {
-        setActiveSong(activeSong || favourites[0]);
-        playSongs(favourites);
+        setActiveSong(activeSong || songs[0]);
+        playSongs(songs);
     };
 
     return (
@@ -90,7 +94,7 @@ const Favourites = ({ favs }) => {
                             </Tr>
                         </Thead>
                         <Tbody>
-                            {favourites?.map((song, i) => (
+                            {songs?.map((song, i) => (
                                 <Tr
                                     sx={{
                                         transition: 'all .3s',
@@ -140,18 +144,28 @@ export const getServerSideProps = async ({ req }) => {
             id: user.id,
         },
         select: {
-            favourites: {
-                include: {
-                    artist: true,
+            favourite: {
+                select: {
+                    song: {
+                        include: {
+                            artist: true,
+                        },
+                    },
                 },
             },
         },
     });
-    console.log(favs);
+    // console.log(favs);
+
+    const { favourite } = favs;
+    // console.log(favourite);
+
+    const songs = favourite.map((fav) => fav.song);
+    // console.log(songs);
 
     return {
         props: {
-            favs: JSON.parse(JSON.stringify(favs)),
+            songs: JSON.parse(JSON.stringify(songs)),
         },
     };
 };

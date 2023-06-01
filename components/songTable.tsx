@@ -26,10 +26,14 @@ type Dict = { [key: number]: Boolean };
 const SongTable = ({ songs, favSongs }) => {
     const playSongs = useStoreActions((store) => store.changeActiveSongs);
     const setActiveSong = useStoreActions((store) => store.changeActiveSong);
-    const { user } = useMe();
-    console.log(user);
-
     const favourited: Dict = {};
+    // console.log(`songs: ${JSON.stringify(songs, null, 2)}`);
+    console.log(songs);
+    console.log(favSongs);
+
+    // const { user } = useMe();
+    // console.log(user);
+
     // console.log(favSongs);
     // console.log(Array.isArray(favSongs));
 
@@ -46,19 +50,24 @@ const SongTable = ({ songs, favSongs }) => {
     //     });
     // });
 
-    if (songs.length > 0) {
-        songs?.forEach((song) => {
-            if (song.userId === user?.id) {
-                favourited[song.id] = true;
-            } else {
-                favourited[song.id] = false;
-            }
-        });
-    }
+    // if (songs.length > 0) {
+    //     songs?.forEach((song) => {
+    //         if (song.userId === user?.id) {
+    //             favourited[song.id] = true;
+    //         } else {
+    //             favourited[song.id] = false;
+    //         }
+    //     });
+    // }
     // console.log(favourited);
+    songs.forEach((song) => {
+        favSongs?.some((favSong) => favSong.id === song.id)
+            ? (favourited[song.id] = true)
+            : (favourited[song.id] = false);
+    });
 
     const [isFav, setIsFav] = useState(favourited);
-    // console.log(isFav);
+    console.log(isFav);
 
     const handlePlay = (activeSong?) => {
         setActiveSong(activeSong || songs[0]);
