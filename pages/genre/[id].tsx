@@ -4,7 +4,9 @@ import ArtistMusicLayout from '../../components/artistMusicLayout';
 import { Box, Divider, Tag } from '@chakra-ui/react';
 
 const Genre = ({ artists, genre }) => {
-    console.log(artists);
+    console.log(`Genre ${genre}`);
+
+    // console.log(artists);
 
     return (
         <Box

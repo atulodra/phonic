@@ -11,8 +11,6 @@ import {
 } from '@chakra-ui/react';
 
 const ArtistLayout = ({ children, image, title, genres, description }) => {
-    console.log(genres);
-
     return (
         <Box
             height="100%"

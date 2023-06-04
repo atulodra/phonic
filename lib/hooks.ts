@@ -34,7 +34,7 @@ export const useResults = (query) => {
 export const useFavs = () => {
     const { data, error } = useSWR('/favourites', fetcher);
     return {
-        favSongs: data,
+        favSongs: (data as any) || [],
         isLoading: !data && !error,
         isError: error,
     };

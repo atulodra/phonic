@@ -1,4 +1,5 @@
 import { Box } from '@chakra-ui/layout';
+// import { Skeleton } from '@chakra-ui/react';
 import Sidebar from './sidebar';
 import PlayerBar from './playerBar';
 import NavBar from './navBar';

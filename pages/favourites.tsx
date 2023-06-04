@@ -19,7 +19,7 @@ import prisma from '../lib/prisma';
 import { formatDate, formatTime } from '../lib/formatters';
 
 const Favourites = ({ songs }) => {
-    console.log(songs);
+    // console.log(songs);
     // const { favourite } = favs;
     // console.log(favourite[0].song.artist.name);
 

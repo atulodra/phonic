@@ -1,8 +1,6 @@
 import { Box, Image } from '@chakra-ui/react';
 
 const Imager = ({ artists }) => {
-    console.log(artists);
-
     return (
         <Box
             padding="20px"

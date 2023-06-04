@@ -1,20 +1,39 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '../../../lib/prisma';
+import { validateRoute } from '../../../lib/auth';
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-    if (req.method === 'POST') {
-        const { id } = req.query;
-        const { newTitle } = req.body;
-        const playlist = await prisma.playlist.update({
-            where: {
-                id: +id,
-            },
-            data: {
-                name: newTitle,
-            },
-        });
-        res.json(playlist?.name);
+export default validateRoute(
+    async (req: NextApiRequest, res: NextApiResponse, user) => {
+        if (req.method === 'POST') {
+            const { id } = req.query;
+            const { newTitle } = req.body;
+            const playlist = await prisma.playlist.update({
+                where: {
+                    id: +id,
+                },
+                data: {
+                    name: newTitle,
+                },
+            });
+            res.json(playlist?.name);
+        }
+
+        if (req.method === 'PUT') {
+            const { id } = req.query;
+            const { song } = req.body;
+            const updatedPlaylist = await prisma.playlist.update({
+                where: {
+                    id: +id,
+                },
+                data: {
+                    songs: {
+                        disconnect: {
+                            id: song.id,
+                        },
+                    },
+                },
+            });
+            res.json(updatedPlaylist);
+        }
     }
-};
-
-export default handler;
+);

@@ -8,8 +8,10 @@ import { useFavs } from '../../lib/hooks';
 import { Divider } from '@chakra-ui/layout';
 
 const Artist = ({ artist, relatedArtists }) => {
-    console.log(artist);
-    const { favSongs } = useFavs();
+    console.log(`Artist ${artist.id}`);
+
+    // console.log(artist);
+    // const { favSongs } = useFavs();
     // console.log(artist.genres);
     // console.log(relatedArtists);
     // const title = 'Related Artists';
@@ -22,7 +24,7 @@ const Artist = ({ artist, relatedArtists }) => {
                 title={`${artist.name}`}
                 genres={artist.genres}
             >
-                <SongTable songs={artist.songs} favSongs={favSongs} />
+                <SongTable songs={artist.songs} playlist={false} />
                 <Divider />
                 <ShowArtists artists={relatedArtists} title="Related Artists" />
             </ArtistLayout>

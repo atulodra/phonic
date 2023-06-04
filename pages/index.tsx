@@ -33,7 +33,7 @@ import UserLayout from '../components/userLayout';
 const Home = (props: { artists: any }) => {
     // const { spotifyData, artists } = props;
     const { artists } = props;
-    const { user } = useMe();
+    const { user, isLoading } = useMe();
 
     // const newAlbums = [
     //     spotifyData.albums.items[0],
@@ -47,6 +47,7 @@ const Home = (props: { artists: any }) => {
             title={`${user?.firstName} ${user?.lastName}`}
             description={`${user?.playlistsCount} public playlists`}
             // image="../me2-no-bg.png"
+            isLoading={isLoading}
         >
             <Divider />
             <Box

@@ -4,14 +4,17 @@ import { useFavs, useResults } from '../lib/hooks';
 import { Artist, Song } from '@prisma/client';
 import ShowArtists from '../components/showArtists';
 import SongTable from '../components/songTable';
+import { Skeleton, SkeletonCircle } from '@chakra-ui/react';
 
 const SearchPage = () => {
+    console.log('Search');
+
     const search = useSearchParams();
     const searchQuery = search ? search.get('q')?.trim() : null;
 
     const encodedSearchQuery = encodeURI(searchQuery || '');
 
-    const { results } = useResults(`?q=${encodedSearchQuery}`);
+    const { results, isLoading } = useResults(`?q=${encodedSearchQuery}`);
 
     console.log(results?.artists);
 
@@ -48,36 +51,40 @@ const SearchPage = () => {
         >
             <Text fontSize="4xl">Search Page</Text>
             <Divider />
-            {results?.artists.length > 0 ? (
-                <ShowArtists artists={results?.artists} title="Artists" />
-            ) : (
-                <Box paddingX="2rem" marginTop="1rem" fontSize="4xl">
-                    <Text>Artists</Text>
-                    <Text
-                        color="schemeTwo.textColor"
-                        fontSize="2xl"
-                        marginY="2rem"
-                    >
-                        No Search Results Found
-                    </Text>
-                </Box>
-            )}
-            <Divider />
-
-            <Box paddingX="2rem" marginTop="1rem">
-                <Text fontSize="4xl">Songs</Text>
-                {results?.songs.length > 0 ? (
-                    <SongTable songs={results?.songs} favSongs={favSongs} />
+            <Skeleton isLoaded={!isLoading}>
+                {results?.artists.length > 0 ? (
+                    <ShowArtists artists={results?.artists} title="" />
                 ) : (
-                    <Text
-                        color="schemeTwo.textColor"
-                        fontSize="2xl"
-                        marginY="2rem"
-                    >
-                        No Search Results Found
-                    </Text>
+                    <Box paddingX="2rem" marginTop="1rem" fontSize="4xl">
+                        <Text>Artists</Text>
+                        <Text
+                            color="schemeTwo.textColor"
+                            fontSize="2xl"
+                            marginY="2rem"
+                        >
+                            No Search Results Found
+                        </Text>
+                    </Box>
                 )}
-            </Box>
+            </Skeleton>
+            <Divider />
+            <Skeleton isLoaded={!isLoading}>
+                <Box paddingX="2rem" marginTop="1rem">
+                    <Text fontSize="4xl">Songs</Text>
+                    {results?.songs.length > 0 ? (
+                        <SongTable songs={results?.songs} favSongs={favSongs} />
+                    ) : (
+                        <Text
+                            color="schemeTwo.textColor"
+                            fontSize="2xl"
+                            marginY="2rem"
+                        >
+                            No Search Results Found
+                        </Text>
+                    )}
+                </Box>
+            </Skeleton>
+
             {/* <Box padding="1.8rem">
                 <SongTable songs={results?.songs} favSongs={favSongs} />
             </Box> */}

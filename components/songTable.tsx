@@ -9,27 +9,39 @@ import {
     Th,
     Icon,
     Text,
+    Skeleton,
+    SkeletonCircle,
+    SkeletonText,
 } from '@chakra-ui/react';
 import { BsFillPlayFill } from 'react-icons/bs';
 import { AiOutlineClockCircle } from 'react-icons/ai';
 import { Song } from '@prisma/client';
 import { useStoreActions } from 'easy-peasy';
 import { FiHeart } from 'react-icons/fi';
-import { useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { formatDate, formatTime } from '../lib/formatters';
+import {
+    addFavSong,
+    addToHistory,
+    removeFavSong,
+    removeSongPlaylist,
+} from '../lib/mutations';
 // import { useMe } from '../lib/hooks';
-import { editFavSong } from '../lib/mutations';
-import { useMe } from '../lib/hooks';
+import { useFavs, useMe } from '../lib/hooks';
 
-type Dict = { [key: number]: Boolean };
+// type Dict = { [key: number]: Boolean };
 
-const SongTable = ({ songs, favSongs }) => {
+const SongTable: FC<{ songs: Song[]; playlist: Boolean; id?: Number }> = ({
+    songs,
+    playlist,
+    id,
+}) => {
     const playSongs = useStoreActions((store) => store.changeActiveSongs);
     const setActiveSong = useStoreActions((store) => store.changeActiveSong);
-    const favourited: Dict = {};
+    // const favourited: Dict = {};
     // console.log(`songs: ${JSON.stringify(songs, null, 2)}`);
-    console.log(songs);
-    console.log(favSongs);
+    // console.log(songs);
+    // console.log(Array.isArray(favSongs));
 
     // const { user } = useMe();
     // console.log(user);
@@ -60,29 +72,34 @@ const SongTable = ({ songs, favSongs }) => {
     //     });
     // }
     // console.log(favourited);
-    songs.forEach((song) => {
-        favSongs?.some((favSong) => favSong.id === song.id)
-            ? (favourited[song.id] = true)
-            : (favourited[song.id] = false);
-    });
 
-    const [isFav, setIsFav] = useState(favourited);
-    console.log(isFav);
+    const [isFav, setIsFav] = useState([]);
+    const [songList, setSongList] = useState([]);
+    const { favSongs, isLoading, isError } = useFavs();
+    useEffect(() => {
+        const favSongsId = favSongs.map((favSong: Song) => favSong.id);
+        setIsFav([...favSongsId]);
+        setSongList([...songs]);
+    }, [favSongs, songs]);
 
-    const handlePlay = (activeSong?) => {
+    const handlePlay = (activeSong?: Song) => {
         setActiveSong(activeSong || songs[0]);
         playSongs(songs);
+        // await addToHistory({ activeSong });
     };
 
-    const handleFav = async (song) => {
-        const action = 'Add';
-        await editFavSong({ song, action });
-        setIsFav((prevFav) => ({ ...prevFav, [song.id]: true }));
+    const handleFav = async (song: Song) => {
+        await addFavSong({ song });
+        setIsFav([...isFav, song.id]);
     };
-    const handleUnfav = async (song) => {
-        const action = 'Remove';
-        await editFavSong({ song, action });
-        setIsFav((prevFav) => ({ ...prevFav, [song.id]: false }));
+    const handleUnfav = async (song: Song) => {
+        await removeFavSong(song.id);
+        setIsFav([...isFav].filter((id) => id !== song.id));
+    };
+
+    const handleRemoveSong = async (song: Song) => {
+        await removeSongPlaylist(id, { song });
+        setSongList([...songList].filter((songL) => songL.id !== song.id));
     };
     return (
         <Box bg="transparent">
@@ -97,7 +114,7 @@ const SongTable = ({ songs, favSongs }) => {
                         onClick={songs.length > 0 ? () => handlePlay() : null}
                     />
                 </Box>
-                {songs.length > 0 ? (
+                {songList.length > 0 ? (
                     <Table variant="unstyled" color="schemeTwo.textColor">
                         <Thead
                             borderBottom="1px solid"
@@ -112,10 +129,11 @@ const SongTable = ({ songs, favSongs }) => {
                                     <AiOutlineClockCircle />
                                 </Th>
                                 <Th />
+                                {playlist && <Th />}
                             </Tr>
                         </Thead>
                         <Tbody>
-                            {songs?.map((song: Song, i) => (
+                            {songList.map((song: Song, i) => (
                                 <Tr
                                     sx={{
                                         transition: 'all .3s',
@@ -137,7 +155,7 @@ const SongTable = ({ songs, favSongs }) => {
                                     </Td>
                                     <Td>{formatTime(song.duration)}</Td>
                                     <Td>
-                                        {isFav[song.id] ? (
+                                        {isFav.includes(song.id) ? (
                                             <Icon
                                                 as={FiHeart}
                                                 fill="#ec327a"
@@ -170,6 +188,16 @@ const SongTable = ({ songs, favSongs }) => {
                                             />
                                         )}
                                     </Td>
+                                    {playlist && (
+                                        <Td
+                                            onClick={() => {
+                                                handleRemoveSong(song);
+                                            }}
+                                        >
+                                            {' '}
+                                            -{' '}
+                                        </Td>
+                                    )}
                                 </Tr>
                             ))}
                         </Tbody>

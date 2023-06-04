@@ -22,35 +22,38 @@ export default validateRoute(
                 },
             });
             const { favourite } = favs;
+            // console.log(favs);
+            // console.log(favourite);
 
             const favSongs = favourite?.map((fav) => fav.song);
 
             res.json(favSongs);
         }
         if (req.method === 'POST') {
-            const { song, action } = req.body;
+            const { song } = req.body;
             // console.log(song);
             // console.log(action);
-            if (action === 'Add') {
-                await prisma.favourite.create({
-                    data: {
+            console.log(song);
+
+            const favourite = await prisma.favourite.create({
+                data: {
+                    userId: user.id,
+                    songId: song.id,
+                },
+            });
+            res.json(favourite);
+        }
+        if (req.method === 'DELETE') {
+            const { song } = req.body;
+            const favourite = await prisma.favourite.delete({
+                where: {
+                    userId_songId: {
                         userId: user.id,
                         songId: song.id,
                     },
-                });
-                res.end();
-            }
-            if (action === 'Remove') {
-                await prisma.favourite.delete({
-                    where: {
-                        userId_songId: {
-                            userId: user.id,
-                            songId: song.id,
-                        },
-                    },
-                });
-                res.end();
-            }
+                },
+            });
+            res.json(favourite);
         }
     }
 );

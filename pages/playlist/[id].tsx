@@ -7,7 +7,7 @@ import SongTable from '../../components/songTable';
 import { useFavs } from '../../lib/hooks';
 
 const Playlist = ({ playlist, artists }) => {
-    const { favSongs } = useFavs();
+    // const { favSongs } = useFavs();
     // console.log(favSongs);
 
     // console.log(artists);
@@ -20,7 +20,7 @@ const Playlist = ({ playlist, artists }) => {
             id={playlist.id}
             forImager={artists}
         >
-            <SongTable songs={playlist.songs} favSongs={favSongs} />
+            <SongTable songs={playlist.songs} playlist id={playlist.id} />
         </PagesLayout>
     );
 };
@@ -51,6 +51,11 @@ export const getServerSideProps = async ({ query, req }) => {
                         select: {
                             name: true,
                             id: true,
+                        },
+                    },
+                    favouriteBy: {
+                        where: {
+                            userId: user.id,
                         },
                     },
                 },

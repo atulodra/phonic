@@ -3,6 +3,9 @@ import { Image } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { useStoreState } from 'easy-peasy';
 import Player from './player';
+import { useEffect, useState } from 'react';
+import { addToHistory } from '../lib/mutations';
+import { Song } from '@prisma/client';
 
 const PlayerBar = () => {
     const songs = useStoreState((state: any) => state.activeSongs);
@@ -23,9 +26,15 @@ const PlayerBar = () => {
                         flexDirection="row"
                         borderRadius="0.2rem"
                         gap="0.8rem"
+                        // position="relative"
                         // marginBottom="20px"
                     >
-                        <Box marginRight="1rem" justifySelf="flex-start">
+                        <Box
+                            marginRight="1rem"
+                            justifySelf="flex-start"
+                            // bottom="8px"
+                            // position="absolute"
+                        >
                             <NextLink
                                 href={{
                                     pathname: '/artist/[id]',
@@ -41,7 +50,11 @@ const PlayerBar = () => {
                                 />
                             </NextLink>
                         </Box>
-                        <Box justifySelf="flex-end" overflow="hidden">
+                        <Box
+                            justifySelf="flex-end"
+                            overflow="hidden"
+                            // marginLeft="5rem"
+                        >
                             <Box
                                 overflow="hidden"
                                 wordBreak="break-all"
@@ -64,7 +77,7 @@ const PlayerBar = () => {
                         </Box>
                     </Box>
                 ) : null}
-                <Box width="60%" color="white" marginX="5%">
+                <Box width="80%" color="white" marginX="5%">
                     {activeSong ? (
                         <Player songs={songs} activeSong={activeSong} />
                     ) : null}

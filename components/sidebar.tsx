@@ -26,6 +26,8 @@ import {
     // FiPlusCircle,
 } from 'react-icons/fi';
 
+import { MdHistory } from 'react-icons/md';
+
 import { BsMusicNoteList } from 'react-icons/bs';
 
 import { Playlist } from '@prisma/client';
@@ -57,8 +59,8 @@ const libraryMenu = [
     },
     {
         name: 'Recently Played',
-        icon: FiActivity,
-        route: '/recently-played',
+        icon: MdHistory,
+        route: '/history',
     },
 ];
 
