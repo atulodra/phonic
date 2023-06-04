@@ -31,7 +31,6 @@ import {
 } from 'react-icons/hi2';
 import { useStoreActions } from 'easy-peasy';
 import { formatTime } from '../lib/formatters';
-import { addToHistory } from '../lib/mutations';
 
 const Player = ({ songs, activeSong }) => {
     const [playing, setPlaying] = useState(true);

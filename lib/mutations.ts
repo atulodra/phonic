@@ -38,6 +38,9 @@ export const addToHistory = (body: { song: Song }) => {
     return updater('/history', 'POST', body);
 };
 
-export const removeSongPlaylist = (id: number, body: { song: Song }) => {
+export const playlistSongEdit = (
+    id: number,
+    body: { song: Song; mode: 'add' | 'remove' }
+) => {
     return updater(`/playlist/${id}`, 'PUT', body);
 };

@@ -12,10 +12,23 @@ import {
     Skeleton,
     SkeletonCircle,
     SkeletonText,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    MenuItemOption,
+    MenuGroup,
+    MenuOptionGroup,
+    MenuDivider,
+    Button,
 } from '@chakra-ui/react';
 import { BsFillPlayFill } from 'react-icons/bs';
-import { AiOutlineClockCircle } from 'react-icons/ai';
-import { Song } from '@prisma/client';
+import {
+    AiOutlineClockCircle,
+    AiOutlineEllipsis,
+    AiOutlineMinus,
+} from 'react-icons/ai';
+import { Playlist, Song } from '@prisma/client';
 import { useStoreActions } from 'easy-peasy';
 import { FiHeart } from 'react-icons/fi';
 import { FC, useEffect, useState } from 'react';
@@ -24,10 +37,10 @@ import {
     addFavSong,
     addToHistory,
     removeFavSong,
-    removeSongPlaylist,
+    playlistSongEdit,
 } from '../lib/mutations';
 // import { useMe } from '../lib/hooks';
-import { useFavs, useMe } from '../lib/hooks';
+import { useFavs, useMe, usePlaylist } from '../lib/hooks';
 
 // type Dict = { [key: number]: Boolean };
 
@@ -72,6 +85,7 @@ const SongTable: FC<{ songs: Song[]; playlist: Boolean; id?: Number }> = ({
     //     });
     // }
     // console.log(favourited);
+    const { playlists, isLoading: playlistloading } = usePlaylist();
 
     const [isFav, setIsFav] = useState([]);
     const [songList, setSongList] = useState([]);
@@ -98,8 +112,14 @@ const SongTable: FC<{ songs: Song[]; playlist: Boolean; id?: Number }> = ({
     };
 
     const handleRemoveSong = async (song: Song) => {
-        await removeSongPlaylist(id, { song });
+        const mode = 'remove';
+        await playlistSongEdit(id, { song, mode });
         setSongList([...songList].filter((songL) => songL.id !== song.id));
+    };
+
+    const handleAddSong = async (song: Song, plid: number) => {
+        const mode = 'add';
+        await playlistSongEdit(plid, { song, mode });
     };
     return (
         <Box bg="transparent">
@@ -130,6 +150,7 @@ const SongTable: FC<{ songs: Song[]; playlist: Boolean; id?: Number }> = ({
                                 </Th>
                                 <Th />
                                 {playlist && <Th />}
+                                <Th />
                             </Tr>
                         </Thead>
                         <Tbody>
@@ -194,10 +215,74 @@ const SongTable: FC<{ songs: Song[]; playlist: Boolean; id?: Number }> = ({
                                                 handleRemoveSong(song);
                                             }}
                                         >
-                                            {' '}
-                                            -{' '}
+                                            <Icon as={AiOutlineMinus} />
                                         </Td>
                                     )}
+                                    <Td>
+                                        <Menu>
+                                            <MenuButton
+                                                as={IconButton}
+                                                icon={<AiOutlineEllipsis />}
+                                                variant="outline"
+                                                border="none"
+                                                _hover={{
+                                                    background: 'none',
+                                                }}
+                                            />
+                                            <MenuList>
+                                                {playlist ? (
+                                                    <>
+                                                        {playlists
+                                                            .filter(
+                                                                (
+                                                                    pl: Playlist
+                                                                ) =>
+                                                                    pl.id !== id
+                                                            )
+                                                            .map(
+                                                                (
+                                                                    pl: Playlist
+                                                                ) => (
+                                                                    <MenuItem
+                                                                        key={
+                                                                            pl.id
+                                                                        }
+                                                                        onClick={() => {
+                                                                            handleAddSong(
+                                                                                song,
+                                                                                pl.id
+                                                                            );
+                                                                        }}
+                                                                    >
+                                                                        {
+                                                                            pl.name
+                                                                        }
+                                                                    </MenuItem>
+                                                                )
+                                                            )}
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        {playlists.map(
+                                                            (pl: Playlist) => (
+                                                                <MenuItem
+                                                                    key={pl.id}
+                                                                    onClick={() => {
+                                                                        handleAddSong(
+                                                                            song,
+                                                                            pl.id
+                                                                        );
+                                                                    }}
+                                                                >
+                                                                    {pl.name}
+                                                                </MenuItem>
+                                                            )
+                                                        )}
+                                                    </>
+                                                )}
+                                            </MenuList>
+                                        </Menu>
+                                    </Td>
                                 </Tr>
                             ))}
                         </Tbody>

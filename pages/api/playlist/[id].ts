@@ -20,20 +20,37 @@ export default validateRoute(
 
         if (req.method === 'PUT') {
             const { id } = req.query;
-            const { song } = req.body;
-            const updatedPlaylist = await prisma.playlist.update({
-                where: {
-                    id: +id,
-                },
-                data: {
-                    songs: {
-                        disconnect: {
-                            id: song.id,
+            const { song, mode } = req.body;
+            if (mode === 'remove') {
+                const updatedPlaylist = await prisma.playlist.update({
+                    where: {
+                        id: +id,
+                    },
+                    data: {
+                        songs: {
+                            disconnect: {
+                                id: song.id,
+                            },
                         },
                     },
-                },
-            });
-            res.json(updatedPlaylist);
+                });
+                res.json(updatedPlaylist);
+            }
+            if (mode === 'add') {
+                const updatedPlaylist = await prisma.playlist.update({
+                    where: {
+                        id: +id,
+                    },
+                    data: {
+                        songs: {
+                            connect: {
+                                id: song.id,
+                            },
+                        },
+                    },
+                });
+                res.json(updatedPlaylist);
+            }
         }
     }
 );
