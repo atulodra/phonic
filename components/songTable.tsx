@@ -85,11 +85,11 @@ const SongTable: FC<{ songs: Song[]; playlist: Boolean; id?: Number }> = ({
     //     });
     // }
     // console.log(favourited);
-    const { playlists, isLoading: playlistloading } = usePlaylist();
+    const { playlists } = usePlaylist();
 
     const [isFav, setIsFav] = useState([]);
     const [songList, setSongList] = useState([]);
-    const { favSongs, isLoading, isError } = useFavs();
+    const { favSongs } = useFavs();
     useEffect(() => {
         const favSongsId = favSongs.map((favSong: Song) => favSong.id);
         setIsFav([...favSongsId]);
@@ -108,7 +108,7 @@ const SongTable: FC<{ songs: Song[]; playlist: Boolean; id?: Number }> = ({
     };
     const handleUnfav = async (song: Song) => {
         await removeFavSong(song.id);
-        setIsFav([...isFav].filter((id) => id !== song.id));
+        setIsFav([...isFav].filter((favid) => favid !== song.id));
     };
 
     const handleRemoveSong = async (song: Song) => {
