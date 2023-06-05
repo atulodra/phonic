@@ -53,7 +53,7 @@ const SearchPage = () => {
             <Divider />
             <Skeleton isLoaded={!isLoading}>
                 {results?.artists.length > 0 ? (
-                    <ShowArtists artists={results?.artists} title="" />
+                    <ShowArtists artists={results?.artists} title="Artists" />
                 ) : (
                     <Box paddingX="2rem" marginTop="1rem" fontSize="4xl">
                         <Text>Artists</Text>

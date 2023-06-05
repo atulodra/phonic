@@ -52,7 +52,10 @@ const Playlists = ({ playlists }) => {
         setPagePlayLists((prevList) => [
             ...prevList,
             {
-                id: prevList[prevList.length - 1].id + 1,
+                id:
+                    prevList.length > 0
+                        ? prevList[prevList.length - 1].id + 1
+                        : 1,
                 name: title,
                 songs: [],
             },

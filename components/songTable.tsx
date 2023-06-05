@@ -1,3 +1,4 @@
+import NextLink from 'next/link';
 import { Box, Center } from '@chakra-ui/layout';
 import {
     Table,
@@ -172,7 +173,17 @@ const SongTable: FC<{ songs: Song[]; playlist: Boolean; id?: Number }> = ({
                                     <Td onClick={() => handlePlay(song)}>
                                         {song.name}
                                     </Td>
-                                    <Td>{song?.artist?.name}</Td>
+                                    <Td>
+                                        <NextLink
+                                            href={{
+                                                pathname: '/artist/[id]',
+                                                query: { id: song.artistId },
+                                            }}
+                                            // passHref
+                                        >
+                                            {song?.artist?.name}
+                                        </NextLink>
+                                    </Td>
                                     <Td>
                                         {formatDate(new Date(song.createdAt))}
                                     </Td>
@@ -212,12 +223,16 @@ const SongTable: FC<{ songs: Song[]; playlist: Boolean; id?: Number }> = ({
                                         )}
                                     </Td>
                                     {playlist && (
-                                        <Td
-                                            onClick={() => {
-                                                handleRemoveSong(song);
-                                            }}
-                                        >
-                                            <Icon as={AiOutlineMinus} />
+                                        <Td>
+                                            <Icon
+                                                as={AiOutlineMinus}
+                                                _hover={{
+                                                    color: '#f70773',
+                                                }}
+                                                onClick={() => {
+                                                    handleRemoveSong(song);
+                                                }}
+                                            />
                                         </Td>
                                     )}
                                     <Td>
