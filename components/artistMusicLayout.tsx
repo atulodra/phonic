@@ -1,13 +1,21 @@
-import { Box, Center, GridItem, Image, Spacer, Text } from '@chakra-ui/react';
+import {
+    Box,
+    Button,
+    Center,
+    GridItem,
+    Image,
+    Spacer,
+    Text,
+} from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { useFavs } from '../lib/hooks';
 import SongTable from './songTable';
+import { Artist } from '@prisma/client';
 
 const ArtistMusicLayout = ({ artists }) => {
-    const { favSongs } = useFavs();
     return (
         <Box width="auto">
-            {artists.map((artist) => (
+            {artists.map((artist: Artist) => (
                 <Box
                     width="auto"
                     padding="1.5em"
@@ -57,8 +65,25 @@ const ArtistMusicLayout = ({ artists }) => {
                     <GridItem colSpan={4}>
                         <SongTable
                             songs={artist.songs.slice(0, 4)}
-                            favSongs={favSongs}
+                            playlist={false}
                         />
+                        <NextLink
+                            href={{
+                                pathname: '/artist/[id]',
+                                query: { id: artist.id },
+                            }}
+                            key={artist.id}
+                            // passHref
+                        >
+                            <Button
+                                background="schemeTwo.bodyPink"
+                                _hover={{
+                                    background: 'schemeTwo.bodyBlue',
+                                }}
+                            >
+                                See More..
+                            </Button>
+                        </NextLink>
                     </GridItem>
                     <Spacer />
                 </Box>

@@ -8,15 +8,23 @@ import {
     Thead,
     Tr,
     Text,
+    Menu,
+    MenuList,
+    MenuItem,
+    MenuButton,
 } from '@chakra-ui/react';
 // import SongTable from '../components/songTable';
 import { BsFillPlayFill } from 'react-icons/bs';
-import { AiOutlineClockCircle } from 'react-icons/ai';
+import { AiOutlineClockCircle, AiOutlineEllipsis } from 'react-icons/ai';
+import { MdOutlinePlaylistAdd } from 'react-icons/md';
 import { useStoreActions } from 'easy-peasy';
 
+import { Playlist, Song } from '@prisma/client';
 import { validateToken } from '../lib/auth';
 import prisma from '../lib/prisma';
 import { formatDate, formatTime } from '../lib/formatters';
+import { usePlaylist } from '../lib/hooks';
+import { playlistSongEdit } from '../lib/mutations';
 
 const Favourites = ({ songs }) => {
     // console.log(songs);
@@ -31,9 +39,16 @@ const Favourites = ({ songs }) => {
     const playSongs = useStoreActions((store) => store.changeActiveSongs);
     const setActiveSong = useStoreActions((store) => store.changeActiveSong);
 
-    const handlePlay = (activeSong?) => {
+    const { playlists } = usePlaylist();
+
+    const handlePlay = (activeSong?: Song) => {
         setActiveSong(activeSong || songs[0]);
         playSongs(songs);
+    };
+
+    const handleAddSong = async (song: Song, plid: number) => {
+        const mode = 'add';
+        await playlistSongEdit(plid, { song, mode });
     };
 
     return (
@@ -91,10 +106,11 @@ const Favourites = ({ songs }) => {
                                 <Th>
                                     <AiOutlineClockCircle />
                                 </Th>
+                                <Th />
                             </Tr>
                         </Thead>
                         <Tbody>
-                            {songs?.map((song, i) => (
+                            {songs?.map((song: Song, i) => (
                                 <Tr
                                     sx={{
                                         transition: 'all .3s',
@@ -115,6 +131,44 @@ const Favourites = ({ songs }) => {
                                         {formatDate(new Date(song.createdAt))}
                                     </Td>
                                     <Td>{formatTime(song.duration)}</Td>
+                                    <Td>
+                                        <Menu>
+                                            <MenuButton
+                                                as={IconButton}
+                                                icon={<MdOutlinePlaylistAdd />}
+                                                boxSize={10}
+                                                variant="outline"
+                                                border="none"
+                                                _hover={{
+                                                    background: 'none',
+                                                }}
+                                                _focus={{
+                                                    bg: '#ac51b6',
+                                                }}
+                                            />
+                                            <MenuList bg="#ac51b6">
+                                                {playlists.map(
+                                                    (pl: Playlist) => (
+                                                        <MenuItem
+                                                            bg="#ac51b6"
+                                                            _hover={{
+                                                                bg: '#d050df',
+                                                            }}
+                                                            key={pl.id}
+                                                            onClick={() => {
+                                                                handleAddSong(
+                                                                    song,
+                                                                    pl.id
+                                                                );
+                                                            }}
+                                                        >
+                                                            {pl.name}
+                                                        </MenuItem>
+                                                    )
+                                                )}
+                                            </MenuList>
+                                        </Menu>
+                                    </Td>
                                 </Tr>
                             ))}
                         </Tbody>

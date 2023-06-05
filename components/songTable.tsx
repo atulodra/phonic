@@ -28,6 +28,8 @@ import {
     AiOutlineEllipsis,
     AiOutlineMinus,
 } from 'react-icons/ai';
+import { MdOutlinePlaylistAdd } from 'react-icons/md';
+
 import { Playlist, Song } from '@prisma/client';
 import { useStoreActions } from 'easy-peasy';
 import { FiHeart } from 'react-icons/fi';
@@ -222,14 +224,17 @@ const SongTable: FC<{ songs: Song[]; playlist: Boolean; id?: Number }> = ({
                                         <Menu>
                                             <MenuButton
                                                 as={IconButton}
-                                                icon={<AiOutlineEllipsis />}
+                                                icon={<MdOutlinePlaylistAdd />}
                                                 variant="outline"
                                                 border="none"
                                                 _hover={{
                                                     background: 'none',
                                                 }}
+                                                _focus={{
+                                                    bg: '#ac51b6',
+                                                }}
                                             />
-                                            <MenuList>
+                                            <MenuList bg="#ac51b6">
                                                 {playlist ? (
                                                     <>
                                                         {playlists
@@ -244,6 +249,10 @@ const SongTable: FC<{ songs: Song[]; playlist: Boolean; id?: Number }> = ({
                                                                     pl: Playlist
                                                                 ) => (
                                                                     <MenuItem
+                                                                        bg="#ac51b6"
+                                                                        _hover={{
+                                                                            bg: '#d050df',
+                                                                        }}
                                                                         key={
                                                                             pl.id
                                                                         }
@@ -267,6 +276,10 @@ const SongTable: FC<{ songs: Song[]; playlist: Boolean; id?: Number }> = ({
                                                             (pl: Playlist) => (
                                                                 <MenuItem
                                                                     key={pl.id}
+                                                                    bg="#ac51b6"
+                                                                    _hover={{
+                                                                        bg: '#d050df',
+                                                                    }}
                                                                     onClick={() => {
                                                                         handleAddSong(
                                                                             song,

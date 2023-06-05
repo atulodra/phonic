@@ -64,17 +64,25 @@ const Home = (props: { artists: any }) => {
                 </Box>
                 <Grid
                     h="200px"
-                    templateRows="repeat(2, 1fr)"
-                    templateColumns="repeat(3, 1fr)"
+                    // templateRows="repeat(2, 1fr)"
+                    templateColumns="repeat(4, 1fr)"
                     gap={4}
-                    paddingX="4rem"
+                    paddingX="2rem"
                 >
                     {artists.slice(0, 6).map((artist: Artist) => (
                         <GridItem
                             padding="20px"
-                            boxShadow="dark-lg"
+                            // boxShadow="dark-lg"
                             justifySelf="center"
-                            bgGradient="linear(to-b,brand.2, brand.3, brand.4)"
+                            // bgGradient="linear(to-b,schemeTwo.bodyPink, schemeTwo.bodyBlue)"
+                            // bgGradient="linear(to-b,brand.2, brand.3, brand.4)"
+                            // _hover={{
+                            //     bgGradient:
+                            //         'linear(to-b,schemeTwo.bodyPink, schemeTwo.bodyBlue)',
+                            // }}
+                            _hover={{
+                                boxShadow: 'dark-lg',
+                            }}
                         >
                             <NextLink
                                 href={{
@@ -83,20 +91,10 @@ const Home = (props: { artists: any }) => {
                                 }}
                                 // passHref
                             >
-                                {/* <Flex
-                                // bg="#71335e"
-                                bgGradient="linear(to-b,brand.2, brand.3, brand.4)"
-                                // borderRadius="1rem"
-                                padding="15px"
-                                width="80%"
-                                direction="column"
-                                justify="center"
-                                align="center"
-                            > */}
                                 <Image
                                     boxSize="180px"
                                     objectFit="cover"
-                                    boxShadow="dark-lg"
+                                    // boxShadow="dark-lg"
                                     src={`/${artist.name}.jpg`}
                                     borderRadius="100%"
                                     // borderRadius={roundImage ? '100%' : '3px'}

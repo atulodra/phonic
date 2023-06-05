@@ -67,7 +67,8 @@ const Player = ({ songs, activeSong }) => {
 
     useEffect(() => {
         setActiveSong(songs[index]);
-    }, [index, setActiveSong, songs]);
+        setPlaying(true);
+    }, [index, setActiveSong, songs, setPlaying]);
 
     useEffect(() => {
         repeatRef.current = repeat;
