@@ -143,16 +143,41 @@ const Favourites = ({ songs }) => {
                                                     background: 'none',
                                                 }}
                                                 _focus={{
-                                                    bg: '#ac51b6',
+                                                    bg: 'schemeTwo.bodyPink',
                                                 }}
                                             />
-                                            <MenuList bg="#ac51b6">
+                                            <MenuList
+                                                bg="schemeTwo.bodyPink"
+                                                boxSize="15rem"
+                                                overflowY="scroll"
+                                                overflowX="auto"
+                                                sx={{
+                                                    '&::-webkit-scrollbar': {
+                                                        width: '0.1em',
+                                                    },
+                                                    '&::-webkit-scrollbar-track':
+                                                        {
+                                                            // width: '0.8em',
+                                                            backgroundColor:
+                                                                '#fff',
+                                                            borderRadius:
+                                                                '24px',
+                                                        },
+                                                    '&::-webkit-scrollbar-thumb':
+                                                        {
+                                                            background:
+                                                                '#a22968',
+                                                            borderRadius:
+                                                                '24px',
+                                                        },
+                                                }}
+                                            >
                                                 {playlists.map(
                                                     (pl: Playlist) => (
                                                         <MenuItem
-                                                            bg="#ac51b6"
+                                                            bg="schemeTwo.bodyPink"
                                                             _hover={{
-                                                                bg: '#d050df',
+                                                                bg: '#7c1847',
                                                             }}
                                                             key={pl.id}
                                                             onClick={() => {

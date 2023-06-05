@@ -24,10 +24,11 @@ import {
     FormLabel,
 } from '@chakra-ui/react';
 import { FiPlusCircle } from 'react-icons/fi';
+import { MdDeleteSweep } from 'react-icons/md';
 import { Playlist } from '@prisma/client';
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/router';
-import { newPlaylist } from '../lib/mutations';
+import { newPlaylist, deletePlaylist } from '../lib/mutations';
 import { validateToken } from '../lib/auth';
 import prisma from '../lib/prisma';
 
@@ -41,7 +42,7 @@ const Playlists = ({ playlists }) => {
     // console.log(playlists);
     // console.log(pagePlaylists);
 
-    // const router = useRouter();
+    // const router = useRouter();1
     // console.log(Object.keys(playlists[0]));
 
     const handleSubmit = async (e) => {
@@ -58,6 +59,14 @@ const Playlists = ({ playlists }) => {
         ]);
         setIsLoading(false);
         // router.reload();
+    };
+
+    const handlePlaylistDelete = async (plid: number) => {
+        console.log(plid);
+        await deletePlaylist(plid);
+        setPagePlayLists((prevList) =>
+            [...prevList].filter((pl) => pl.id !== plid)
+        );
     };
 
     return (
@@ -147,6 +156,7 @@ const Playlists = ({ playlists }) => {
                                 <Th>#</Th>
                                 <Th>Title</Th>
                                 <Th>Songs</Th>
+                                <Th />
                             </Tr>
                         </Thead>
                         <Tbody>
@@ -175,6 +185,21 @@ const Playlists = ({ playlists }) => {
                                         {playlist.songs?.length > 0
                                             ? playlist.songs?.length
                                             : 0}
+                                    </Td>
+                                    <Td>
+                                        {' '}
+                                        <Icon
+                                            as={MdDeleteSweep}
+                                            boxSize={5}
+                                            _hover={{
+                                                color: '#f70773',
+                                            }}
+                                            onClick={() =>
+                                                handlePlaylistDelete(
+                                                    playlist.id
+                                                )
+                                            }
+                                        />
                                     </Td>
                                 </Tr>
                             ))}

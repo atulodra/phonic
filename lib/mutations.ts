@@ -44,3 +44,7 @@ export const playlistSongEdit = (
 ) => {
     return updater(`/playlist/${id}`, 'PUT', body);
 };
+
+export const deletePlaylist = (id: number) => {
+    return updater(`/playlist/${id}`, 'DELETE');
+};

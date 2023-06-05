@@ -52,5 +52,17 @@ export default validateRoute(
                 res.json(updatedPlaylist);
             }
         }
+
+        if (req.method === 'DELETE') {
+            const { id } = req.query;
+            console.log(id);
+
+            const deletedPlaylist = await prisma.playlist.delete({
+                where: {
+                    id: +id,
+                },
+            });
+            res.json(deletedPlaylist);
+        }
     }
 );

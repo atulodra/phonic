@@ -23,6 +23,7 @@ import {
     FiChevronRight,
     FiChevronLeft,
     FiVolume2,
+    FiVolumeX,
 } from 'react-icons/fi';
 import {
     HiPlayCircle,
@@ -129,6 +130,9 @@ const Player = ({ songs, activeSong }) => {
         setVolume(value / 100);
     };
 
+    const handleMute = () => {
+        setVolume(0);
+    };
     return (
         <Box display="grid" gridTemplateColumns="repeat(5, 1fr)">
             <Box gridColumnStart="1" gridColumnEnd="5">
@@ -234,13 +238,18 @@ const Player = ({ songs, activeSong }) => {
             </Box>
             <Box alignSelf="center">
                 <Flex marginLeft="15%" gap={5}>
-                    <Icon as={FiVolume2} color="white" />
+                    <Icon
+                        as={volume === 0 ? FiVolumeX : FiVolume2}
+                        color="white"
+                        onClick={handleMute}
+                    />
                     <Slider
                         aria-label="volume control"
                         defaultValue={50}
                         min={0}
                         max={100}
                         step={10}
+                        value={volume === 0 ? 0 : volume * 100}
                         onChange={handleVolChange}
                     >
                         <SliderTrack>

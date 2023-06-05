@@ -1,5 +1,5 @@
 import { Song } from '@prisma/client';
-import { Box, Text } from '@chakra-ui/react';
+import { Box, Tex, Skeleton } from '@chakra-ui/react';
 import prisma from '../../lib/prisma';
 import { validateToken } from '../../lib/auth';
 import PagesLayout from '../../components/pagesLayout';
@@ -20,7 +20,10 @@ const Playlist = ({ playlist, artists }) => {
             id={playlist.id}
             forImager={artists}
         >
-            <SongTable songs={playlist.songs} playlist id={playlist.id} />
+            {' '}
+            <Skeleton isLoaded={playlist}>
+                <SongTable songs={playlist.songs} playlist id={playlist.id} />
+            </Skeleton>
         </PagesLayout>
     );
 };
