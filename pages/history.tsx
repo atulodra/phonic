@@ -1,24 +1,7 @@
-import {
-    Box,
-    IconButton,
-    Table,
-    Tbody,
-    Td,
-    Th,
-    Thead,
-    Tr,
-    Text,
-    Divider,
-} from '@chakra-ui/react';
-// import SongTable from '../components/songTable';
-import { BsFillPlayFill } from 'react-icons/bs';
-import { AiOutlineClockCircle } from 'react-icons/ai';
-import { useStoreActions } from 'easy-peasy';
-
+import { Box, Text, Divider } from '@chakra-ui/react';
+import { History, Song } from '@prisma/client';
 import { validateToken } from '../lib/auth';
 import prisma from '../lib/prisma';
-import { formatDate, formatTime } from '../lib/formatters';
-import { History, Song } from '@prisma/client';
 import ShowArtists from '../components/showArtists';
 import SongTable from '../components/songTable';
 
