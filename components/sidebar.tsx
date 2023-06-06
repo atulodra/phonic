@@ -15,7 +15,7 @@ import {
     HStack,
 } from '@chakra-ui/layout';
 
-import { Icon } from '@chakra-ui/react';
+import { Icon, useMediaQuery } from '@chakra-ui/react';
 
 import {
     FiActivity,
@@ -26,10 +26,7 @@ import {
     // FiPlusCircle,
 } from 'react-icons/fi';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import {
-    ChevronLeftIcon,
-    ChevronRightIcon,
-} from '@chakra-ui/icons';
+import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { BiCategoryAlt } from 'react-icons/bi';
 
 import { MdHistory } from 'react-icons/md';
@@ -85,6 +82,7 @@ const playlistsMenu = [
 ];
 
 const Sidebar = () => {
+    const [isSmallScreen] = useMediaQuery('(max-width: 768px)');
     const [isCollapse, setIsCollapse] = useState(false);
     const { playlists } = usePlaylist();
     return (
@@ -106,7 +104,7 @@ const Sidebar = () => {
                     // filter="drop-shadow(0 0 0.14rem crimson)"
                     _hover={{ filter: 'drop-shadow(0 0 0.75rem #0373a3)' }}
                 >
-                    {!isCollapse && (
+                    {!isCollapse && !isSmallScreen && (
                         <NextImage
                             src="/Asset 9 1.svg"
                             height={50}
@@ -114,7 +112,7 @@ const Sidebar = () => {
                             alt="phonic-logo"
                         />
                     )}
-                    {!isCollapse && (
+                    {!isCollapse && !isSmallScreen && (
                         <Text
                             fontFamily="Futura"
                             fontSize="36px"
@@ -124,7 +122,7 @@ const Sidebar = () => {
                             Phonic
                         </Text>
                     )}
-                    {!isCollapse ? (
+                    {!isSmallScreen && !isCollapse ? (
                         <ChevronLeftIcon
                             onClick={() => setIsCollapse(!isCollapse)}
                             fontSize={'1.5rem'}
@@ -163,7 +161,9 @@ const Sidebar = () => {
                                         // passHref
                                     >
                                         <Icon as={menu.icon} />
-                                        {!isCollapse && menu.name}
+                                        {!isCollapse &&
+                                            !isSmallScreen &&
+                                            menu.name}
                                     </LinkOverlay>
                                 </LinkBox>
                             </ListItem>
@@ -171,16 +171,18 @@ const Sidebar = () => {
                     </List>
                 </Box>
                 {/* <Divider color="gray.800" /> */}
-                <Text
-                    fontSize="16px"
-                    fontWeight="bold"
-                    color="white"
-                    paddingX="20px"
-                    marginBottom="10px"
-                    marginTop="5px"
-                >
-                    {!isCollapse && 'LIBRARY'}
-                </Text>
+                {!isCollapse && !isSmallScreen && (
+                    <Text
+                        fontSize="16px"
+                        fontWeight="bold"
+                        color="white"
+                        paddingX="20px"
+                        marginBottom="10px"
+                        marginTop="5px"
+                    >
+                        LIBRARY
+                    </Text>
+                )}
                 <Box marginBottom="20px">
                     <List spacing={5}>
                         {libraryMenu.map((menu) => (
@@ -207,7 +209,9 @@ const Sidebar = () => {
                                         // passHref
                                     >
                                         <Icon as={menu.icon} />
-                                        {!isCollapse && menu.name}
+                                        {!isCollapse &&
+                                            !isSmallScreen &&
+                                            menu.name}
                                     </LinkOverlay>
                                     {/* </NextLink> */}
                                 </LinkBox>
@@ -216,16 +220,18 @@ const Sidebar = () => {
                     </List>
                 </Box>
                 {/* <Divider color="gray.800" /> */}
-                <Text
-                    fontSize="16px"
-                    fontWeight="bold"
-                    color="white"
-                    paddingX="20px"
-                    marginBottom="10px"
-                    marginTop="5px"
-                >
-                    {!isCollapse && 'PLAYLISTS'}
-                </Text>
+                {!isCollapse && !isSmallScreen && (
+                    <Text
+                        fontSize="16px"
+                        fontWeight="bold"
+                        color="white"
+                        paddingX="20px"
+                        marginBottom="10px"
+                        marginTop="5px"
+                    >
+                        PLAYLISTS
+                    </Text>
+                )}
                 <Box marginBottom="5px">
                     <LinkBox paddingX="20px" fontSize="16px">
                         <LinkOverlay
@@ -244,7 +250,9 @@ const Sidebar = () => {
                             // passHref
                         >
                             <Icon as={playlistsMenu[0].icon} />
-                            {!isCollapse && playlistsMenu[0].name}
+                            {!isCollapse &&
+                                !isSmallScreen &&
+                                playlistsMenu[0].name}
                         </LinkOverlay>
                     </LinkBox>
                 </Box>
@@ -283,20 +291,23 @@ const Sidebar = () => {
                                         }}
                                         // passHref
                                     >
-                                        <LinkOverlay
-                                            marginRight="30px"
-                                            display="flex"
-                                            columnGap="15px"
-                                            alignItems="center"
-                                            // justifyContent="center"
-                                            _hover={{
-                                                color: '#F08A6A',
-                                                textShadow: '1px 1px #ff0000',
-                                            }}
-                                        >
-                                            {' '}
-                                            {playlist.name}
-                                        </LinkOverlay>
+                                        {!isCollapse && !isSmallScreen && (
+                                            <LinkOverlay
+                                                marginRight="30px"
+                                                display="flex"
+                                                columnGap="15px"
+                                                alignItems="center"
+                                                // justifyContent="center"
+                                                _hover={{
+                                                    color: '#F08A6A',
+                                                    textShadow:
+                                                        '1px 1px #ff0000',
+                                                }}
+                                            >
+                                                {' '}
+                                                {playlist.name}
+                                            </LinkOverlay>
+                                        )}
                                     </NextLink>
                                     {/* <LinkOverlay
                                         as={NextLink}
