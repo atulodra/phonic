@@ -6,23 +6,13 @@ import NavBar from './navBar';
 
 const PlayerLayout = ({ children }: any) => {
     return (
-        <Box height="100vh" overflow="auto">
-            <Box position="absolute" top="0" width="236px" left="0">
+        <Box height="100vh" overflow="auto" display='flex'>
+            <Box>
                 <Sidebar />
             </Box>
-            <Box
-                position="absolute"
-                right="0"
-                top="0"
-                // marginLeft="236px"
-                height="100px"
-                width="calc(100vw - 236px)"
-                // paddingTop="20px"
-            >
-                <NavBar />
-            </Box>
-            <Box marginLeft="240px" marginTop="100px" marginRight="10px">
+            <Box  marginLeft='10px' marginRight="10px" flex='1'>
                 <Box height="calc(100vh - 200px)" color="white">
+                <NavBar />
                     {children}
                 </Box>
             </Box>
