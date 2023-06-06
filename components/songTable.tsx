@@ -99,10 +99,12 @@ const SongTable: FC<{ songs: Song[]; playlist: Boolean; id?: Number }> = ({
         setSongList([...songs]);
     }, [favSongs, songs]);
 
-    const handlePlay = (activeSong?: Song) => {
+    const handlePlay = async (activeSong?: Song) => {
         setActiveSong(activeSong || songs[0]);
         playSongs(songs);
-        // await addToHistory({ activeSong });
+        if (activeSong !== undefined) {
+            await addToHistory({ activeSong });
+        }
     };
 
     const handleFav = async (song: Song) => {
@@ -166,11 +168,14 @@ const SongTable: FC<{ songs: Song[]; playlist: Boolean; id?: Number }> = ({
                                         },
                                     }}
                                     key={song.id}
-                                    cursor="cursor"
                                     // onClick={() => handlePlay(song)}
                                 >
                                     <Td>{i + 1}</Td>
-                                    <Td onClick={() => handlePlay(song)}>
+
+                                    <Td
+                                        cursor="pointer"
+                                        onClick={() => handlePlay(song)}
+                                    >
                                         {song.name}
                                     </Td>
                                     <Td>

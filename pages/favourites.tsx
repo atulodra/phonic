@@ -24,7 +24,7 @@ import { validateToken } from '../lib/auth';
 import prisma from '../lib/prisma';
 import { formatDate, formatTime } from '../lib/formatters';
 import { usePlaylist } from '../lib/hooks';
-import { playlistSongEdit } from '../lib/mutations';
+import { addToHistory, playlistSongEdit } from '../lib/mutations';
 
 const Favourites = ({ songs }) => {
     // console.log(songs);
@@ -41,9 +41,12 @@ const Favourites = ({ songs }) => {
 
     const { playlists } = usePlaylist();
 
-    const handlePlay = (activeSong?: Song) => {
+    const handlePlay = async (activeSong?: Song) => {
         setActiveSong(activeSong || songs[0]);
         playSongs(songs);
+        if (activeSong !== undefined) {
+            await addToHistory({ activeSong });
+        }
     };
 
     const handleAddSong = async (song: Song, plid: number) => {

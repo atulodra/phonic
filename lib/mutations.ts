@@ -34,7 +34,7 @@ export const newPlaylist = (body: { title: string }) => {
     return updater('/playlist', 'POST', body);
 };
 
-export const addToHistory = (body: { song: Song }) => {
+export const addToHistory = (body: { activeSong: Song }) => {
     return updater('/history', 'POST', body);
 };
 

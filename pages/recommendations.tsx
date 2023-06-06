@@ -6,9 +6,6 @@ import ShowArtists from '../components/showArtists';
 import SongTable from '../components/songTable';
 
 const Recommendations = ({ recArtists, recSongs }) => {
-    // console.log(recArtists);
-    // console.log(recSongs);
-
     return (
         <Box
             height="100%"
