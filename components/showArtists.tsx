@@ -6,7 +6,7 @@ import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 const ShowArtists = ({ artists, title }) => {
     return (
         <Box>
-            <Text paddingX="2rem" marginTop="1rem" fontSize="4xl">
+            <Text paddingX="2rem" marginTop="1rem" fontSize="3xl">
                 {title}
             </Text>
             <Box

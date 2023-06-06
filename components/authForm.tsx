@@ -60,7 +60,7 @@ const AuthForm: FC<{ mode: 'signin' | 'signup' }> = ({ mode }) => {
                         display="flex"
                         flexDirection="column"
                     >
-                        <AbsoluteCenter axis="both">
+                        <AbsoluteCenter>
                             <Center>
                                 <HStack marginY="30px" spacing={4}>
                                     <Image
@@ -205,15 +205,40 @@ const AuthForm: FC<{ mode: 'signin' | 'signup' }> = ({ mode }) => {
                                 '0px 0px 0px 5px rgba(226, 226, 222, 0.8) inset',
                         }}
                     >
-                        <Text
-                            fontSize="2.5rem"
-                            fontFamily="Futura"
-                            opacity="0.8"
-                            margin="3rem"
-                            color="white"
-                        >
-                            Welcome To Phonic!!
-                        </Text>
+                        <Box marginLeft="10em" marginTop="10em">
+                            <Text
+                                fontSize="2.5rem"
+                                fontFamily="Gotham Black"
+                                opacity="0.8"
+                                color="white"
+                            >
+                                Discover
+                            </Text>
+                            <Text
+                                fontSize="2.5rem"
+                                fontFamily="Gotham Light"
+                                opacity="0.8"
+                                color="white"
+                            >
+                                Your
+                            </Text>
+                            <Text
+                                fontSize="2.5rem"
+                                fontFamily="Gotham Light"
+                                opacity="0.8"
+                                color="white"
+                            >
+                                Next
+                            </Text>
+                            <Text
+                                fontSize="2.5rem"
+                                fontFamily="Gotham Black"
+                                opacity="0.8"
+                                color="white"
+                            >
+                                ohrwurm
+                            </Text>
+                        </Box>
                         {/* <Image
                             src="/Group 10.jpg"
                             height="100%"

@@ -32,16 +32,23 @@ export default validateRoute(
 
         if (req.method === 'POST') {
             try {
-                const { song } = req.body;
-                console.log(song);
+                const { activeSong } = req.body;
+                // console.log(activeSong);
 
-                const history = await prisma.history.create({
-                    data: {
+                const history = await prisma.history.upsert({
+                    where: {
+                        userId_songId: {
+                            userId: user.id,
+                            songId: activeSong.id,
+                        },
+                    },
+                    update: {},
+                    create: {
                         userId: user.id,
-                        songId: song.id,
+                        songId: activeSong.id,
                     },
                 });
-                console.log(history);
+                // console.log(history);
 
                 res.json(history);
             } catch (error) {

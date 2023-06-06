@@ -39,3 +39,12 @@ export const useFavs = () => {
         isError: error,
     };
 };
+
+export const useRecs = () => {
+    const { data, error } = useSWR('/recommendations', fetcher);
+    return {
+        recs: data,
+        isLoading: !data && !error,
+        isError: error,
+    };
+};

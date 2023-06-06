@@ -89,7 +89,7 @@ const Genres = ({ artists, genres, songs }) => {
     );
 };
 
-export const getServerSideProps = async ({ query, req }) => {
+export const getServerSideProps = async () => {
     const artists = await prisma.artist.findMany({
         include: {
             songs: {

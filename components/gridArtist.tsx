@@ -15,6 +15,7 @@ const GridArtists = ({ artists }) => {
         >
             {artists.map((artist: Artist) => (
                 <GridItem
+                    key={artist.id}
                     padding="20px"
                     // boxShadow="dark-lg"
                     justifySelf="center"
