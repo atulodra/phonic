@@ -34,7 +34,7 @@ const NavBar = () => {
     // const router = useRouter();
 
     return (
-        <Box>
+        <Box color='black'>
             <Flex justify="space-between" width="100%" padding="1rem">
                 <Flex width="50%" justify="space-between">
                     <ButtonGroup>
