@@ -21,6 +21,7 @@ import {
     ButtonGroup,
     IconButton,
 } from '@chakra-ui/react';
+import { useMediaQuery } from "@chakra-ui/react";
 import { MdArrowDropDown } from 'react-icons/md';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 // import { useRouter } from 'next/router';
@@ -30,14 +31,14 @@ import SearchInput from './searchInput';
 
 const NavBar = () => {
     const { user, isLoading, isError } = useMe();
-
+    const [isSmallScreen] = useMediaQuery("(max-width: 768px)");
     // const router = useRouter();
 
     return (
         <Box color='black'>
             <Flex justify="space-between" width="100%" padding="1rem">
                 <Flex width="50%" justify="space-between">
-                    <ButtonGroup>
+                    {!isSmallScreen && <ButtonGroup>
                         <IconButton
                             aria-label="Go Back in History"
                             icon={<FiChevronLeft />}
@@ -76,7 +77,7 @@ const NavBar = () => {
                                 color: 'white',
                             }}
                         />
-                    </ButtonGroup>
+                    </ButtonGroup>}
                     <SearchInput />
                 </Flex>
                 <Flex
