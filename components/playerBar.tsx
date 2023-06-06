@@ -1,11 +1,9 @@
-import { Box, Center, Flex, Text } from '@chakra-ui/layout';
+import { Box, Flex, Text } from '@chakra-ui/layout';
 import { Image } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { useStoreState } from 'easy-peasy';
-import Player from './player';
-import { useEffect, useState } from 'react';
-import { addToHistory } from '../lib/mutations';
 import { Song } from '@prisma/client';
+import Player from './player';
 
 const PlayerBar = () => {
     const songs = useStoreState((state: any) => state.activeSongs);

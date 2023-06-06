@@ -1,4 +1,4 @@
-import { Box, Text, Image, Grid, GridItem, Divider } from '@chakra-ui/react';
+import { Box, Text, Image, Grid, GridItem } from '@chakra-ui/react';
 import { Artist } from '@prisma/client';
 import NextLink from 'next/link';
 

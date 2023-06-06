@@ -1,14 +1,6 @@
-import { Flex, Box, Text, Divider } from '@chakra-ui/layout';
+import { Flex, Box, Text } from '@chakra-ui/layout';
 import NextLink from 'next/link';
-import {
-    Image,
-    HStack,
-    Tag,
-    TagLabel,
-    TagLeftIcon,
-    TagRightIcon,
-    TagCloseButton,
-} from '@chakra-ui/react';
+import { Image, HStack, Tag } from '@chakra-ui/react';
 
 const ArtistLayout = ({ children, image, title, genres, description }) => {
     return (

@@ -1,5 +1,4 @@
-import { Box, Text, Image, Grid, GridItem, Divider } from '@chakra-ui/react';
-import NextLink from 'next/link';
+import { Box, Text, Divider } from '@chakra-ui/react';
 import prisma from '../lib/prisma';
 import { validateToken } from '../lib/auth';
 import ArtistMusicLayout from '../components/artistMusicLayout';

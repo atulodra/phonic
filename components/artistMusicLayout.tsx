@@ -1,16 +1,7 @@
-import {
-    Box,
-    Button,
-    Center,
-    GridItem,
-    Image,
-    Spacer,
-    Text,
-} from '@chakra-ui/react';
+import { Box, Button, GridItem, Image, Spacer, Text } from '@chakra-ui/react';
 import NextLink from 'next/link';
-import { useFavs } from '../lib/hooks';
-import SongTable from './songTable';
 import { Artist } from '@prisma/client';
+import SongTable from './songTable';
 
 const ArtistMusicLayout = ({ artists }) => {
     return (

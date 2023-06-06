@@ -1,10 +1,8 @@
-import { Song } from '@prisma/client';
-import { Box, Tex, Skeleton } from '@chakra-ui/react';
+import { Skeleton } from '@chakra-ui/react';
 import prisma from '../../lib/prisma';
 import { validateToken } from '../../lib/auth';
 import PagesLayout from '../../components/pagesLayout';
 import SongTable from '../../components/songTable';
-import { useFavs } from '../../lib/hooks';
 
 const Playlist = ({ playlist, artists }) => {
     // const { favSongs } = useFavs();

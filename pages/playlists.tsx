@@ -3,7 +3,6 @@ import NextLink from 'next/link';
 import {
     Box,
     Icon,
-    Link,
     Table,
     Tbody,
     Td,
@@ -14,20 +13,16 @@ import {
     ModalOverlay,
     ModalContent,
     ModalHeader,
-    ModalFooter,
     ModalBody,
     ModalCloseButton,
     useDisclosure,
     Button,
     Input,
-    FormControl,
-    FormLabel,
 } from '@chakra-ui/react';
 import { FiPlusCircle } from 'react-icons/fi';
 import { MdDeleteSweep } from 'react-icons/md';
 import { Playlist } from '@prisma/client';
 import { useState, useRef } from 'react';
-import { useRouter } from 'next/router';
 import { newPlaylist, deletePlaylist } from '../lib/mutations';
 import { validateToken } from '../lib/auth';
 import prisma from '../lib/prisma';
@@ -39,11 +34,6 @@ const Playlists = ({ playlists }) => {
     const [title, setTitle] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [pagePlaylists, setPagePlayLists] = useState([...playlists]);
-    // console.log(playlists);
-    // console.log(pagePlaylists);
-
-    // const router = useRouter();1
-    // console.log(Object.keys(playlists[0]));
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -61,7 +51,6 @@ const Playlists = ({ playlists }) => {
             },
         ]);
         setIsLoading(false);
-        // router.reload();
     };
 
     const handlePlaylistDelete = async (plid: number) => {

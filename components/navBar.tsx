@@ -3,21 +3,15 @@ import {
     SkeletonCircle,
     HStack,
     Box,
-    Wrap,
-    WrapItem,
     Avatar,
     Text,
-    Center,
     Divider,
-    Select,
-    Button,
     Flex,
     AvatarBadge,
     MenuButton,
     MenuList,
     MenuItem,
     Menu,
-    Input,
     ButtonGroup,
     IconButton,
 } from '@chakra-ui/react';
@@ -29,7 +23,7 @@ import SearchInput from './searchInput';
 // import Link from 'next/link';
 
 const NavBar = () => {
-    const { user, isLoading, isError } = useMe();
+    const { user, isLoading } = useMe();
 
     // const router = useRouter();
 

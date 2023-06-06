@@ -1,7 +1,6 @@
 import { Box, Divider, Text } from '@chakra-ui/layout';
 import { validateToken } from '../lib/auth';
 import prisma from '../lib/prisma';
-import GridArtists from '../components/gridArtist';
 import ShowArtists from '../components/showArtists';
 import SongTable from '../components/songTable';
 

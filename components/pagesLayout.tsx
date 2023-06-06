@@ -1,14 +1,7 @@
 import { Box, Divider, Flex, Text } from '@chakra-ui/layout';
-import {
-    Button,
-    ButtonGroup,
-    IconButton,
-    Image,
-    Input,
-} from '@chakra-ui/react';
-import { FiCheckSquare, FiEdit } from 'react-icons/fi';
+import { ButtonGroup, IconButton, Image, Input } from '@chakra-ui/react';
 import { MdClose } from 'react-icons/md';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { playlistTitleUpdater } from '../lib/mutations';
 import Imager from './imager';

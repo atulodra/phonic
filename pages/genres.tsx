@@ -1,10 +1,7 @@
-import prisma from '../lib/prisma';
 import NextLink from 'next/link';
-import { validateToken } from '../lib/auth';
-import ArtistMusicLayout from '../components/artistMusicLayout';
-import { Box, Divider, Tag } from '@chakra-ui/react';
 import { Artist, Song } from '@prisma/client';
-import ShowArtists from '../components/showArtists';
+import { Box, Divider, Tag } from '@chakra-ui/react';
+import prisma from '../lib/prisma';
 import GridArtists from '../components/gridArtist';
 import SongTable from '../components/songTable';
 

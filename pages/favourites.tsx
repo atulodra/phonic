@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 // import SongTable from '../components/songTable';
 import { BsFillPlayFill } from 'react-icons/bs';
-import { AiOutlineClockCircle, AiOutlineEllipsis } from 'react-icons/ai';
+import { AiOutlineClockCircle } from 'react-icons/ai';
 import { MdOutlinePlaylistAdd } from 'react-icons/md';
 import { useStoreActions } from 'easy-peasy';
 

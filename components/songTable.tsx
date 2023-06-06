@@ -9,26 +9,13 @@ import {
     IconButton,
     Th,
     Icon,
-    Text,
-    Skeleton,
-    SkeletonCircle,
-    SkeletonText,
     Menu,
     MenuButton,
     MenuList,
     MenuItem,
-    MenuItemOption,
-    MenuGroup,
-    MenuOptionGroup,
-    MenuDivider,
-    Button,
 } from '@chakra-ui/react';
 import { BsFillPlayFill } from 'react-icons/bs';
-import {
-    AiOutlineClockCircle,
-    AiOutlineEllipsis,
-    AiOutlineMinus,
-} from 'react-icons/ai';
+import { AiOutlineClockCircle, AiOutlineMinus } from 'react-icons/ai';
 import { MdOutlinePlaylistAdd } from 'react-icons/md';
 
 import { Playlist, Song } from '@prisma/client';
@@ -43,7 +30,7 @@ import {
     playlistSongEdit,
 } from '../lib/mutations';
 // import { useMe } from '../lib/hooks';
-import { useFavs, useMe, usePlaylist } from '../lib/hooks';
+import { useFavs, usePlaylist } from '../lib/hooks';
 
 // type Dict = { [key: number]: Boolean };
 

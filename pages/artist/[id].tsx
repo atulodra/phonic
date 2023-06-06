@@ -1,11 +1,9 @@
+import { Divider } from '@chakra-ui/layout';
 import prisma from '../../lib/prisma';
 import { validateToken } from '../../lib/auth';
-import PagesLayout from '../../components/pagesLayout';
 import ArtistLayout from '../../components/artistLayout';
 import SongTable from '../../components/songTable';
 import ShowArtists from '../../components/showArtists';
-import { useFavs } from '../../lib/hooks';
-import { Divider } from '@chakra-ui/layout';
 
 const Artist = ({ artist, relatedArtists }) => {
     console.log(`Artist ${artist.id}`);

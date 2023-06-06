@@ -1,7 +1,7 @@
+import { Box, Divider, Tag } from '@chakra-ui/react';
 import prisma from '../../lib/prisma';
 import { validateToken } from '../../lib/auth';
 import ArtistMusicLayout from '../../components/artistMusicLayout';
-import { Box, Divider, Tag } from '@chakra-ui/react';
 
 const Genre = ({ artists, genre }) => {
     console.log(`Genre ${genre}`);

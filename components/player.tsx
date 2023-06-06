@@ -13,7 +13,6 @@ import {
     SliderTrack,
     SliderFilledTrack,
     SliderThumb,
-    SliderMark,
     Icon,
 } from '@chakra-ui/react';
 import ReactHowler from 'react-howler';

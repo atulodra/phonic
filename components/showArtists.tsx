@@ -1,7 +1,6 @@
-import { Box, Center, Flex, HStack, Text, VStack } from '@chakra-ui/layout';
-import { Icon, Image, Tag } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/layout';
+import { Image } from '@chakra-ui/react';
 import NextLink from 'next/link';
-import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 
 const ShowArtists = ({ artists, title }) => {
     return (
