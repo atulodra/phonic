@@ -6,13 +6,13 @@ import NavBar from './navBar';
 
 const PlayerLayout = ({ children }: any) => {
     return (
-        <Box height="100vh" overflow="auto" display='flex'>
+        <Box height="100vh" overflow="auto" display="flex">
             <Box>
                 <Sidebar />
             </Box>
-            <Box  marginLeft='10px' marginRight="10px" flex='1'>
+            <Box marginLeft="10px" marginRight="10px" flex="1">
                 <Box height="calc(100vh - 200px)" color="white">
-                <NavBar />
+                    <NavBar />
                     {children}
                 </Box>
             </Box>
