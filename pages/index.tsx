@@ -1,204 +1,86 @@
-// import Head from 'next/head'
-// import Image from 'next/image'
-// import { Inter } from 'next/font/google'
-// import styles from '../styles/Home.module.css'
-
-// const inter = Inter({ subsets: ['latin'] })
-
-// import {Center, Text} from '@chakra-ui/layout'
-import {
-    Heading,
-    Card,
-    CardHeader,
-    CardBody,
-    CardFooter,
-    Flex,
-    Box,
-    Text,
-    Stack,
-    Image,
-    Center,
-    Divider,
-    Grid,
-    GridItem,
-} from '@chakra-ui/react';
-
-import { Artist } from '@prisma/client';
+import { Box, Text, Divider } from '@chakra-ui/react';
 import prisma from '../lib/prisma';
-import PagesLayout from '../components/pagesLayout';
 import { useMe } from '../lib/hooks';
 import UserLayout from '../components/userLayout';
+import GridArtists from '../components/gridArtist';
+import SongTable from '../components/songTable';
 
-// const Home = (props: { spotifyData: any; artists: any }) => {
-const Home = (props: { artists: any }) => {
-    // const { spotifyData, artists } = props;
-    const { artists } = props;
-    const { user } = useMe();
+const Home = ({ artists, songs }) => {
+    const { user, isLoading } = useMe();
 
-    // const newAlbums = [
-    //     spotifyData.albums.items[0],
-    //     spotifyData.albums.items[1],
-    //     spotifyData.albums.items[3],
-    // ];
-    // console.log(data);
     return (
         <UserLayout
             subtitle="profile"
             title={`${user?.firstName} ${user?.lastName}`}
             description={`${user?.playlistsCount} public playlists`}
             // image="../me2-no-bg.png"
+            isLoading={isLoading}
         >
             <Divider />
-            <Box color="white" paddingX="40px" marginTop="40px">
+            <Box
+                color="white"
+                paddingX="40px"
+                marginTop="40px"
+                marginBottom="3rem"
+            >
                 <Box marginBottom="40px">
                     <Text fontSize="2xl" fontWeight="bold">
-                        Top artist this month
+                        Top artists
                     </Text>
-                    <Text fontSize="md">only visible to you</Text>
                 </Box>
-
-                {/* <Flex>
-                    {artists.slice(0, 6).map((artist: Artist) => (
-                        <Box paddingX="10px" width="20%">
-                            <Box
-                                bg="gray.900"
-                                borderRadius="4px"
-                                padding="15px"
-                                width="100%"
-                            >
-                                <Image
-                                    src="https://placekitten.com/300/300"
-                                    borderRadius="100%"
-                                />
-                                <Box marginTop="20px">
-                                    <Text fontSize="large">{artist.name}</Text>
-                                    <Text fontSize="x-small">Artist</Text>
-                                </Box>
-                            </Box>
-                        </Box>
-                    ))}
-                </Flex> */}
-                <Grid
-                    h="200px"
-                    templateRows="repeat(2, 1fr)"
-                    templateColumns="repeat(3, 1fr)"
-                    gap={4}
-                    paddingX="5rem"
-                >
-                    {artists.slice(0, 6).map((artist: Artist) => (
-                        <GridItem paddingX="10px">
-                            <Flex
-                                bg="schemeTwo.bodyPink"
-                                borderRadius="1.5rem"
-                                padding="15px"
-                                width="100%"
-                                direction="column"
-                                justify="center"
-                                align="center"
-                            >
-                                <Box
-                                    width="200px"
-                                    height="200px"
-                                    borderRadius="100%"
-                                    position="relative"
-                                    overflow="hidden"
-                                >
-                                    <Image
-                                        src={`/${artist.name}.jpg`}
-                                        objectFit="cover"
-                                        max-width="100%"
-                                    />
-                                </Box>
-
-                                <Box marginTop="20px">
-                                    <Text fontSize="large">{artist.name}</Text>
-                                    <Text fontSize="x-small">Artist</Text>
-                                </Box>
-                            </Flex>
-                        </GridItem>
-                    ))}
-                </Grid>
+                <GridArtists artists={artists.slice(0, 4)} />
+                <Divider />
+                <Box marginBottom="40px">
+                    <Text fontSize="2xl" fontWeight="bold">
+                        Top tracks
+                    </Text>
+                </Box>
+                <SongTable songs={songs} playlist={false} />
             </Box>
-            {/* <Box>
-                <Heading color="#DCD5D5">New Releases From Spotify</Heading>
-                <Divider marginY="10px" />
-                <Flex columnGap="20px" align="center">
-                    {newAlbums.map((album) => (
-                        <Card
-                            as="a"
-                            height="294px"
-                            width="352px"
-                            href={album.external_urls.spotify}
-                            target="blank"
-                        >
-                            <CardHeader maxH="10px">
-                                <Heading size="md">{album.name}</Heading>
-                            </CardHeader>
-                            <CardBody>
-                                <Center>
-                                    <Image
-                                        src={album.images[0].url}
-                                        borderRadius="lg"
-                                        width="200"
-                                        height="200"
-                                    />
-                                </Center>
-                            </CardBody>
-                            <CardFooter
-                                bg="black"
-                                height="66"
-                                display="flex"
-                                flexDirection="column"
-                                justify="center"
-                                // align="center"
-                                color="white"
-                            >
-                                <Box>
-                                    <Text fontSize="20">
-                                        {album.artists[0].name}
-                                    </Text>
-                                </Box>
-                            </CardFooter>
-                        </Card>
-                    ))}
-                </Flex>
-            </Box> */}
         </UserLayout>
     );
 };
 
 export const getServerSideProps = async () => {
-    const artists = await prisma.artist.findMany({});
+    // const artists = await prisma.artist.findMany({});
+    const his = await prisma.history.findMany({});
+    const hisSongs = his.map((h) => h.songId);
+    const favs = await prisma.favourite.findMany({});
+    const favsSongs = favs.map((f) => f.songId);
+    const totalSongs = [...hisSongs, ...favsSongs];
+    const uniqueSongs = totalSongs.filter((x, i, a) => a.indexOf(x) === i);
+    console.log(uniqueSongs);
 
-    // const clientId = process.env.SPOTIFY_CLIENT_ID;
-    // const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
-    // const accessTokenData = await fetch(
-    //     'https://accounts.spotify.com/api/token',
-    //     {
-    //         method: 'POST',
-    //         body: `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}`,
-    //         headers: {
-    //             'Content-Type': 'application/x-www-form-urlencoded',
-    //         },
-    //     }
-    // ).then((response) => response.json());
+    const songs = await prisma.song.findMany({
+        where: {
+            OR: uniqueSongs.map((sid) => ({
+                id: sid,
+            })),
+        },
+        include: {
+            artist: true,
+        },
+    });
 
-    // const accessToken = accessTokenData.access_token;
-    // const spotifyData = await fetch(
-    //     'https://api.spotify.com/v1/browse/new-releases?country=NP',
-    //     {
-    //         headers: {
-    //             Authorization: `Bearer ${accessToken}`,
-    //         },
-    //     }
-    // ).then((response) => response.json());
+    const artists = songs
+        .map((song) => song.artist)
+        .filter((x, i, a) => a.findIndex((item) => item.id === x.id) === i);
 
-    // console.log(spotifyData.albums.items[5]);
+    // const totalSongsDict = {};
+    // totalSongs.forEach((song) => {
+    //     totalSongsDict[song] = totalSongsDict[song]
+    //         ? totalSongsDict[song] + 1
+    //         : 1;
+    // });
+    // const mostOccurences = Object.values(totalSongsDict)
+    //     .sort((a, b) => b - a)
+    //     .slice(0, 5);
+    // const mostOccurredIds =
 
     return {
         props: {
             artists: JSON.parse(JSON.stringify(artists)),
-            // spotifyData,
+            songs: JSON.parse(JSON.stringify(songs)),
         },
     };
 };

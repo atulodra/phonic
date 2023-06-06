@@ -25,6 +25,9 @@ import {
     // FiRadio,
     // FiPlusCircle,
 } from 'react-icons/fi';
+import { BiCategoryAlt } from 'react-icons/bi';
+
+import { MdHistory } from 'react-icons/md';
 
 import { BsMusicNoteList } from 'react-icons/bs';
 
@@ -42,11 +45,11 @@ const navMenu = [
         icon: FiMusic,
         route: '/music',
     },
-    // {
-    //     name: 'Podcast',
-    //     icon: FiRadio,
-    //     route: '/podcast',
-    // },
+    {
+        name: 'Genres',
+        icon: BiCategoryAlt,
+        route: '/genres',
+    },
 ];
 
 const libraryMenu = [
@@ -57,8 +60,13 @@ const libraryMenu = [
     },
     {
         name: 'Recently Played',
+        icon: MdHistory,
+        route: '/history',
+    },
+    {
+        name: 'Recommendations',
         icon: FiActivity,
-        route: '/recently-played',
+        route: '/recommendations',
     },
 ];
 
@@ -217,7 +225,7 @@ const Sidebar = () => {
                     </LinkBox>
                 </Box>
                 <Box
-                    height="30%"
+                    height="27%"
                     overflowY="auto"
                     paddingY="15px"
                     width="90%"

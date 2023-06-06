@@ -1,7 +1,14 @@
 import { Flex, Box, Text, Divider } from '@chakra-ui/layout';
-import { Image } from '@chakra-ui/react';
+import { Image, Skeleton, SkeletonCircle } from '@chakra-ui/react';
 
-const UserLayout = ({ children, image, title, subtitle, description }) => {
+const UserLayout = ({
+    children,
+    image,
+    title,
+    subtitle,
+    description,
+    isLoading,
+}) => {
     return (
         <Box
             height="100%"
@@ -33,23 +40,26 @@ const UserLayout = ({ children, image, title, subtitle, description }) => {
         >
             <Flex align="end">
                 <Box padding="20px">
-                    <Image
-                        boxSize="160px"
-                        objectFit="cover"
-                        boxShadow="2xl"
-                        src={image}
-                        borderRadius="100%"
-                        // borderRadius={roundImage ? '100%' : '3px'}
-                        // fallbackSrc="https://via.placeholder.com/150"
-                        fallbackSrc="https://placekitten.com/408/287"
-                    />
+                    <SkeletonCircle size="140px" isLoaded={!isLoading}>
+                        <Image
+                            boxSize="140px"
+                            objectFit="cover"
+                            boxShadow="2xl"
+                            src={image}
+                            borderRadius="100%"
+                            // borderRadius={roundImage ? '100%' : '3px'}
+                            // fallbackSrc="https://via.placeholder.com/150"
+                            fallbackSrc="https://placekitten.com/408/287"
+                        />
+                    </SkeletonCircle>
                 </Box>
                 <Box padding="20px" lineHeight="40px" width="80%">
                     <Text fontSize="xs" fontWeight="bold" casing="uppercase">
                         {subtitle}
                     </Text>
-
-                    <Text fontSize="5xl">{title}</Text>
+                    <Skeleton isLoaded={!isLoading}>
+                        <Text fontSize="5xl">{title}</Text>
+                    </Skeleton>
                     <Text fontSize="xs">{description}</Text>
                 </Box>
             </Flex>

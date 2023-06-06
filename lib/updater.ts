@@ -1,6 +1,10 @@
-const updater = (url: string, data = undefined) => {
+const updater = (
+    url: string,
+    method: 'POST' | 'PUT' | 'DELETE',
+    data = undefined
+) => {
     return fetch(`${window.location.origin}/api${url}`, {
-        method: 'POST',
+        method,
         credentials: 'include',
         headers: {
             'Content-Type': 'application/json',
@@ -10,7 +14,7 @@ const updater = (url: string, data = undefined) => {
         if (res.status > 399 && res.status < 200) {
             throw new Error();
         }
-        // return res.json();
+        return res.json();
     });
 };
 

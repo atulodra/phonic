@@ -1,6 +1,8 @@
-import { Box, Center, Flex, Text } from '@chakra-ui/layout';
+import { Box, Flex, Text } from '@chakra-ui/layout';
 import { Image } from '@chakra-ui/react';
+import NextLink from 'next/link';
 import { useStoreState } from 'easy-peasy';
+import { Song } from '@prisma/client';
 import Player from './player';
 
 const PlayerBar = () => {
@@ -22,23 +24,58 @@ const PlayerBar = () => {
                         flexDirection="row"
                         borderRadius="0.2rem"
                         gap="0.8rem"
+                        // position="relative"
                         // marginBottom="20px"
                     >
-                        <Box marginRight="1rem">
-                            <Image
-                                boxSize="60px"
-                                src={`/${activeSong.artist.name}.jpg`}
-                                objectFit="cover"
-                                border="1px solid white"
-                            />
+                        <Box
+                            marginRight="1rem"
+                            justifySelf="flex-start"
+                            // bottom="8px"
+                            // position="absolute"
+                        >
+                            <NextLink
+                                href={{
+                                    pathname: '/artist/[id]',
+                                    query: { id: activeSong.artist.id },
+                                }}
+                                // passHref
+                            >
+                                <Image
+                                    boxSize="60px"
+                                    src={`/${activeSong.artist.name}.jpg`}
+                                    objectFit="cover"
+                                    border="1px solid white"
+                                />
+                            </NextLink>
                         </Box>
-                        <Box>
-                            <Text fontSize="20">{activeSong.name}</Text>
-                            <Text fontSize="16">{activeSong.artist.name}</Text>
+                        <Box
+                            justifySelf="flex-end"
+                            overflow="hidden"
+                            // marginLeft="5rem"
+                        >
+                            <Box
+                                overflow="hidden"
+                                wordBreak="break-all"
+                                whiteSpace="nowrap"
+                                textOverflow="ellipsis"
+                            >
+                                <Text fontSize="18">{activeSong.name}</Text>
+                            </Box>
+                            <NextLink
+                                href={{
+                                    pathname: '/artist/[id]',
+                                    query: { id: activeSong.artist.id },
+                                }}
+                                // passHref
+                            >
+                                <Text fontSize="14">
+                                    {activeSong.artist.name}
+                                </Text>
+                            </NextLink>
                         </Box>
                     </Box>
                 ) : null}
-                <Box width="60%" color="white" marginX="5%">
+                <Box width="80%" color="white" marginX="5%">
                     {activeSong ? (
                         <Player songs={songs} activeSong={activeSong} />
                     ) : null}

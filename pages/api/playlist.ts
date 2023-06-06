@@ -18,13 +18,13 @@ export default validateRoute(
         if (req.method === 'POST') {
             const { title } = req.body;
             console.log(title);
-            await prisma.playlist.create({
+            const newPlaylist = await prisma.playlist.create({
                 data: {
                     userId: user.id,
                     name: title,
                 },
             });
-            res.end();
+            res.json(newPlaylist);
         }
     }
 );

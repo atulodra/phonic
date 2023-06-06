@@ -23,10 +23,28 @@ export const playlistTitleUpdater = (
     return fetcher(`/playlist/${id}`, body);
 };
 
-export const editFavSong = (body: { song: Song; action: 'Add' | 'Remove' }) => {
-    return updater('/favourites', body);
+export const addFavSong = (body: { song: Song }) => {
+    return updater('/favourites', 'POST', body);
+};
+export const removeFavSong = (id: number) => {
+    return updater(`/favourites/${id}`, 'DELETE');
 };
 
 export const newPlaylist = (body: { title: string }) => {
-    return updater('/playlist', body);
+    return updater('/playlist', 'POST', body);
+};
+
+export const addToHistory = (body: { activeSong: Song }) => {
+    return updater('/history', 'POST', body);
+};
+
+export const playlistSongEdit = (
+    id: number,
+    body: { song: Song; mode: 'add' | 'remove' }
+) => {
+    return updater(`/playlist/${id}`, 'PUT', body);
+};
+
+export const deletePlaylist = (id: number) => {
+    return updater(`/playlist/${id}`, 'DELETE');
 };

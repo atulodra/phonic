@@ -1,33 +1,27 @@
-import { Song } from '@prisma/client';
-import { Box } from '@chakra-ui/react';
+import { Skeleton } from '@chakra-ui/react';
 import prisma from '../../lib/prisma';
 import { validateToken } from '../../lib/auth';
 import PagesLayout from '../../components/pagesLayout';
 import SongTable from '../../components/songTable';
-import { useFavs } from '../../lib/hooks';
 
-// const Imager = () => {
-//     // TODO a div to make an image from first four songs, move this to pageslayout
+const Playlist = ({ playlist, artists }) => {
+    // const { favSongs } = useFavs();
+    // console.log(favSongs);
 
-//     return (
-//         <Box padding="20px" display="grid">
-//             <div>this</div>
-//         </Box>
-//     );
-// };
+    // console.log(artists);
 
-const Playlist = ({ playlist }) => {
-    const { favSongs } = useFavs();
     return (
         <PagesLayout
-            roundImage={false}
             title={playlist.name}
             subtitle="playlist"
             description={`${playlist.songs.length} songs`}
-            image={false}
             id={playlist.id}
+            forImager={artists}
         >
-            <SongTable songs={playlist.songs} favSongs={favSongs} />
+            {' '}
+            <Skeleton isLoaded={playlist}>
+                <SongTable songs={playlist.songs} playlist id={playlist.id} />
+            </Skeleton>
         </PagesLayout>
     );
 };
@@ -60,14 +54,33 @@ export const getServerSideProps = async ({ query, req }) => {
                             id: true,
                         },
                     },
+                    favouriteBy: {
+                        where: {
+                            userId: user.id,
+                        },
+                    },
                 },
             },
         },
     });
+    const artistsId = playlist.songs
+        .map((song) => song.artistId)
+        .filter((x, i, a) => a.indexOf(x) === i)
+        .slice(0, 4);
+
+    const artists = await prisma.artist.findMany({
+        where: {
+            OR: artistsId.map((id) => ({
+                id,
+            })),
+        },
+    });
+    // console.log(artists);
 
     return {
         props: {
             playlist: JSON.parse(JSON.stringify(playlist)),
+            artists: JSON.parse(JSON.stringify(artists)),
         },
     };
 };

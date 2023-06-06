@@ -8,28 +8,50 @@ import {
     Thead,
     Tr,
     Text,
+    Menu,
+    MenuList,
+    MenuItem,
+    MenuButton,
 } from '@chakra-ui/react';
 // import SongTable from '../components/songTable';
 import { BsFillPlayFill } from 'react-icons/bs';
 import { AiOutlineClockCircle } from 'react-icons/ai';
+import { MdOutlinePlaylistAdd } from 'react-icons/md';
 import { useStoreActions } from 'easy-peasy';
 
+import { Playlist, Song } from '@prisma/client';
 import { validateToken } from '../lib/auth';
 import prisma from '../lib/prisma';
 import { formatDate, formatTime } from '../lib/formatters';
+import { usePlaylist } from '../lib/hooks';
+import { addToHistory, playlistSongEdit } from '../lib/mutations';
 
-const Favourites = ({ favs }) => {
-    console.log(Array.isArray(favs));
-    const { favourites } = favs;
-    console.log(favs);
-    console.log(favourites);
+const Favourites = ({ songs }) => {
+    // console.log(songs);
+    // const { favourite } = favs;
+    // console.log(favourite[0].song.artist.name);
+
+    // console.log(Array.isArray(favs));
+    // const { favourites } = favs;
+    // console.log(favs);
+    // console.log(favourites);
 
     const playSongs = useStoreActions((store) => store.changeActiveSongs);
     const setActiveSong = useStoreActions((store) => store.changeActiveSong);
 
-    const handlePlay = (activeSong?) => {
-        setActiveSong(activeSong || favourites[0]);
-        playSongs(favourites);
+    const { playlists } = usePlaylist();
+
+    const handlePlay = async (activeSong?: Song) => {
+        setActiveSong(activeSong || songs[0]);
+        playSongs(songs);
+        if (activeSong !== undefined) {
+            await addToHistory({ activeSong });
+        }
+    };
+
+    const handleAddSong = async (song: Song, plid: number) => {
+        const mode = 'add';
+        await playlistSongEdit(plid, { song, mode });
     };
 
     return (
@@ -87,10 +109,11 @@ const Favourites = ({ favs }) => {
                                 <Th>
                                     <AiOutlineClockCircle />
                                 </Th>
+                                <Th />
                             </Tr>
                         </Thead>
                         <Tbody>
-                            {favourites?.map((song, i) => (
+                            {songs?.map((song: Song, i) => (
                                 <Tr
                                     sx={{
                                         transition: 'all .3s',
@@ -111,6 +134,69 @@ const Favourites = ({ favs }) => {
                                         {formatDate(new Date(song.createdAt))}
                                     </Td>
                                     <Td>{formatTime(song.duration)}</Td>
+                                    <Td>
+                                        <Menu>
+                                            <MenuButton
+                                                as={IconButton}
+                                                icon={<MdOutlinePlaylistAdd />}
+                                                boxSize={10}
+                                                variant="outline"
+                                                border="none"
+                                                _hover={{
+                                                    background: 'none',
+                                                }}
+                                                _focus={{
+                                                    bg: 'schemeTwo.bodyPink',
+                                                }}
+                                            />
+                                            <MenuList
+                                                bg="schemeTwo.bodyPink"
+                                                boxSize="15rem"
+                                                overflowY="scroll"
+                                                overflowX="auto"
+                                                sx={{
+                                                    '&::-webkit-scrollbar': {
+                                                        width: '0.1em',
+                                                    },
+                                                    '&::-webkit-scrollbar-track':
+                                                        {
+                                                            // width: '0.8em',
+                                                            backgroundColor:
+                                                                '#fff',
+                                                            borderRadius:
+                                                                '24px',
+                                                        },
+                                                    '&::-webkit-scrollbar-thumb':
+                                                        {
+                                                            background:
+                                                                '#a22968',
+                                                            borderRadius:
+                                                                '24px',
+                                                        },
+                                                }}
+                                            >
+                                                {playlists.map(
+                                                    (pl: Playlist) => (
+                                                        <MenuItem
+                                                            bg="schemeTwo.bodyPink"
+                                                            _hover={{
+                                                                bg: '#7c1847',
+                                                            }}
+                                                            key={pl.id}
+                                                            onClick={() => {
+                                                                handleAddSong(
+                                                                    song,
+                                                                    pl.id
+                                                                );
+                                                            }}
+                                                        >
+                                                            {pl.name}
+                                                        </MenuItem>
+                                                    )
+                                                )}
+                                            </MenuList>
+                                        </Menu>
+                                    </Td>
                                 </Tr>
                             ))}
                         </Tbody>
@@ -140,18 +226,28 @@ export const getServerSideProps = async ({ req }) => {
             id: user.id,
         },
         select: {
-            favourites: {
-                include: {
-                    artist: true,
+            favourite: {
+                select: {
+                    song: {
+                        include: {
+                            artist: true,
+                        },
+                    },
                 },
             },
         },
     });
-    console.log(favs);
+    // console.log(favs);
+
+    const { favourite } = favs;
+    // console.log(favourite);
+
+    const songs = favourite.map((fav) => fav.song);
+    // console.log(songs);
 
     return {
         props: {
-            favs: JSON.parse(JSON.stringify(favs)),
+            songs: JSON.parse(JSON.stringify(songs)),
         },
     };
 };
