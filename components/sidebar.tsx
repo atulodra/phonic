@@ -25,6 +25,11 @@ import {
     // FiRadio,
     // FiPlusCircle,
 } from 'react-icons/fi';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import {
+    ChevronLeftIcon,
+    ChevronRightIcon,
+} from '@chakra-ui/icons';
 import { BiCategoryAlt } from 'react-icons/bi';
 
 import { MdHistory } from 'react-icons/md';
@@ -32,6 +37,7 @@ import { MdHistory } from 'react-icons/md';
 import { BsMusicNoteList } from 'react-icons/bs';
 
 import { Playlist } from '@prisma/client';
+import { useState } from 'react';
 import { usePlaylist } from '../lib/hooks';
 
 const navMenu = [
@@ -79,10 +85,11 @@ const playlistsMenu = [
 ];
 
 const Sidebar = () => {
+    const [isCollapse, setIsCollapse] = useState(false);
     const { playlists } = usePlaylist();
     return (
         <Box
-            width="100%"
+            // width="100%"
             height="calc(100vh - 100px)"
             // bg="black"
             color="#D1B5B5"
@@ -99,20 +106,37 @@ const Sidebar = () => {
                     // filter="drop-shadow(0 0 0.14rem crimson)"
                     _hover={{ filter: 'drop-shadow(0 0 0.75rem #0373a3)' }}
                 >
-                    <NextImage
-                        src="/Asset 9 1.svg"
-                        height={50}
-                        width={50}
-                        alt="phonic-logo"
-                    />
-                    <Text
-                        fontFamily="Futura"
-                        fontSize="36px"
-                        fontWeight="Bold"
-                        color="white"
-                    >
-                        Phonic
-                    </Text>
+                    {!isCollapse && (
+                        <NextImage
+                            src="/Asset 9 1.svg"
+                            height={50}
+                            width={50}
+                            alt="phonic-logo"
+                        />
+                    )}
+                    {!isCollapse && (
+                        <Text
+                            fontFamily="Futura"
+                            fontSize="36px"
+                            fontWeight="Bold"
+                            color="white"
+                        >
+                            Phonic
+                        </Text>
+                    )}
+                    {!isCollapse ? (
+                        <ChevronLeftIcon
+                            onClick={() => setIsCollapse(!isCollapse)}
+                            fontSize={'1.5rem'}
+                            role="button"
+                        />
+                    ) : (
+                        <ChevronRightIcon
+                            onClick={() => setIsCollapse(!isCollapse)}
+                            fontSize={'1.5rem'}
+                            role="button"
+                        />
+                    )}
                 </HStack>
                 <Box marginBottom="10px">
                     <List spacing={5}>
@@ -139,7 +163,7 @@ const Sidebar = () => {
                                         // passHref
                                     >
                                         <Icon as={menu.icon} />
-                                        {menu.name}
+                                        {!isCollapse && menu.name}
                                     </LinkOverlay>
                                 </LinkBox>
                             </ListItem>
@@ -155,7 +179,7 @@ const Sidebar = () => {
                     marginBottom="10px"
                     marginTop="5px"
                 >
-                    LIBRARY
+                    {!isCollapse && 'LIBRARY'}
                 </Text>
                 <Box marginBottom="20px">
                     <List spacing={5}>
@@ -183,7 +207,7 @@ const Sidebar = () => {
                                         // passHref
                                     >
                                         <Icon as={menu.icon} />
-                                        {menu.name}
+                                        {!isCollapse && menu.name}
                                     </LinkOverlay>
                                     {/* </NextLink> */}
                                 </LinkBox>
@@ -200,7 +224,7 @@ const Sidebar = () => {
                     marginBottom="10px"
                     marginTop="5px"
                 >
-                    PLAYLISTS
+                    {!isCollapse && 'PLAYLISTS'}
                 </Text>
                 <Box marginBottom="5px">
                     <LinkBox paddingX="20px" fontSize="16px">
@@ -220,7 +244,7 @@ const Sidebar = () => {
                             // passHref
                         >
                             <Icon as={playlistsMenu[0].icon} />
-                            {playlistsMenu[0].name}
+                            {!isCollapse && playlistsMenu[0].name}
                         </LinkOverlay>
                     </LinkBox>
                 </Box>
