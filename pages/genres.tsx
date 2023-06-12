@@ -7,7 +7,7 @@ import SongTable from '../components/songTable';
 
 const Genres = ({ artists, genres, songs }) => {
     // console.log(artists);
-    console.log(songs);
+    // console.log(songs);
 
     return (
         <Box

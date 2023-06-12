@@ -49,7 +49,7 @@ export const getServerSideProps = async () => {
     const favsSongs = favs.map((f) => f.songId);
     const totalSongs = [...hisSongs, ...favsSongs];
     const uniqueSongs = totalSongs.filter((x, i, a) => a.indexOf(x) === i);
-    console.log(uniqueSongs);
+    // console.log(uniqueSongs);
 
     const songs = await prisma.song.findMany({
         where: {

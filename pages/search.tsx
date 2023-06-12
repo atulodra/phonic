@@ -7,7 +7,7 @@ import SongTable from '../components/songTable';
 import { Skeleton, SkeletonCircle } from '@chakra-ui/react';
 
 const SearchPage = () => {
-    console.log('Search');
+    // console.log('Search');
 
     const search = useSearchParams();
     const searchQuery = search ? search.get('q')?.trim() : null;
@@ -16,7 +16,7 @@ const SearchPage = () => {
 
     const { results, isLoading } = useResults(`?q=${encodedSearchQuery}`);
 
-    console.log(results?.artists);
+    // console.log(results?.artists);
 
     const { favSongs } = useFavs();
 

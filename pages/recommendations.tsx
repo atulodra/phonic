@@ -92,25 +92,26 @@ export const getServerSideProps = async ({ req }) => {
 
     //* Get the Favourited Song IDs of current user
     const myFavIds = myFavs.map((myFav) => myFav.songId);
-    // console.log('myfavsIds:\n', myFavIds);
+
+    console.log('myfavsIds:\n', myFavIds);
 
     //* Get Unique Artist Ids of favourited songs
     const myFavedArtistsIds = myFavs
         .map((myFav) => myFav.song.artist.id)
         .filter((x, i, a) => a.indexOf(x) === i);
-    // console.log('myFavedArtistsIds:\n', myFavedArtistsIds);
+    console.log('myFavedArtistsIds:\n', myFavedArtistsIds);
 
     //* Get favourites of the rest of the users excluding current user, could have done it earlier
     const otherUsersFavs = users
         .filter((indiUser) => indiUser.id !== user.id)
         .map((indiUser) => indiUser.favourite);
-    // console.log('OtherUsersFavs:\n', otherUsersFavs);
+    console.log('OtherUsersFavs:\n', otherUsersFavs);
 
     //* Get an array of array of song ids of other users favourited songs
     const otherUsersFavsIds = otherUsersFavs.map((of) =>
         of.map((o) => o.songId)
     );
-    // console.log('otherUsersFavsIds', otherUsersFavsIds);
+    console.log('otherUsersFavsIds', otherUsersFavsIds);
 
     // ********************************************************/
     // const test = otherUsersFavs.map((of) => {
@@ -126,11 +127,11 @@ export const getServerSideProps = async ({ req }) => {
     const filteredIds = otherUsersFavsIds
         .filter((ofId) => ofId.filter((x) => myFavIds.includes(x)).length === 2)
         .flat(1);
-    // console.log('filteredIds:\n', filteredIds);
+    console.log('filteredIds:\n', filteredIds);
 
     //* Get genres of artists associated with favourite songs of the current user
     const myFavGenres = myFavs.map((mf) => mf.song.artist.genres).flat(1);
-    // console.log('myFavGenres:\n', myFavGenres);
+    console.log('myFavGenres:\n', myFavGenres);
 
     //* Get other artists that have at least one of the genre tag associated with song favourited by current user
     const artistsViaGenres = await prisma.artist.findMany({
@@ -164,13 +165,13 @@ export const getServerSideProps = async ({ req }) => {
         .flat(1)
         .map((song) => song.id);
 
-    // console.log('songIdsViaGenres:\n', songIdsViaGenres);
+    console.log('songIdsViaGenres:\n', songIdsViaGenres);
 
     //* Find the common song Ids between the songs gotten by other users and songs gotten via curren favourited songs' artists genre
     const commonIds = filteredIds.filter((fid) =>
         songIdsViaGenres.includes(fid)
     );
-    // console.log('Common IDs:\n', commonIds);
+    console.log('Common IDs:\n', commonIds);
 
     //* Get the songs with the help of common song Ids
     const reInforcedArtists = await prisma.song.findMany({
@@ -184,13 +185,13 @@ export const getServerSideProps = async ({ req }) => {
             artist: true,
         },
     });
-    // console.log('reInforcedArtists:\n', reInforcedArtists);
+    console.log('reInforcedArtists:\n', reInforcedArtists);
 
     //* Get unique artists from the list of songs
     const reInforcedArtistsIds = reInforcedArtists
         .map((a) => a.artistId)
         .filter((x, i, a) => a.indexOf(x) === i);
-    // console.log('reInforcedArtistsIds:\n', reInforcedArtistsIds);
+    console.log('reInforcedArtistsIds:\n', reInforcedArtistsIds);
 
     // * These artists to rec
     const recArtists = await prisma.artist.findMany({
@@ -207,7 +208,7 @@ export const getServerSideProps = async ({ req }) => {
             },
         },
     });
-    // console.log(recArtists);
+    console.log(recArtists);
 
     // * These songs to rec - take filteredId and exclude current favourited songs' Ids
     const recSongsIds = filteredIds
@@ -224,6 +225,8 @@ export const getServerSideProps = async ({ req }) => {
             artist: true,
         },
     });
+
+    console.log(recSongs);
 
     return {
         props: {
