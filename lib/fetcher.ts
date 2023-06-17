@@ -3,15 +3,15 @@ const fetcher = (url: string, data = undefined) => {
         method: data ? 'POST' : 'GET',
         credentials: 'include',
         headers: {
-          'Content-Type': 'application/json',
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
-      }).then((res) => {
+    }).then((res) => {
         if (res.status > 399 && res.status < 200) {
-          throw new Error()
+            throw new Error();
         }
-        return res.json()
-      })
-}
+        return res.json();
+    });
+};
 
 export default fetcher;

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Box, Center, Divider, Text } from '@chakra-ui/layout';
 import { AiFillExclamationCircle } from 'react-icons/ai';
 import { BsDot } from 'react-icons/bs';
@@ -12,6 +13,12 @@ import {
     ModalCloseButton,
     useDisclosure,
     Button,
+    Table,
+    Thead,
+    Tr,
+    Th,
+    Tbody,
+    Td,
 } from '@chakra-ui/react';
 import { validateToken } from '../lib/auth';
 import prisma from '../lib/prisma';
@@ -19,10 +26,22 @@ import ShowArtists from '../components/showArtists';
 import SongTable from '../components/songTable';
 import { useFavs } from '../lib/hooks';
 
-const Recommendations = ({ recArtists, recSongs, myFavGenres }) => {
+const Recommendations = ({
+    recArtists,
+    recSongs,
+    myFavGenres,
+    modalRestOtherUsersFavs,
+    modalSongs,
+}) => {
+    const [viaGenre, setViaGenre] = useState(false);
     const { favSongs } = useFavs();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const uniqueFavGenres = myFavGenres.filter((x, i, a) => a.indexOf(x) === i);
+
+    if (favSongs.length && modalRestOtherUsersFavs.length === 0) {
+        setViaGenre(true);
+    }
+
     return (
         <Box
             height="100%"
@@ -74,37 +93,139 @@ const Recommendations = ({ recArtists, recSongs, myFavGenres }) => {
                         <ModalHeader>Recommendation Details</ModalHeader>
                         <ModalCloseButton />
                         <ModalBody>
+                            <Text fontSize="md">
+                                Genres from favourited songs:{' '}
+                            </Text>
+                            <ul>
+                                {uniqueFavGenres.map((genre) => (
+                                    <li>
+                                        <Icon as={BsDot} />
+                                        {genre}
+                                    </li>
+                                ))}
+                            </ul>
+                            <Center
+                                border="2px"
+                                borderColor="schemeTwo.bodyPink"
+                                marginBottom="2rem"
+                                borderRadius="0.4rem"
+                                gap={3}
+                                color="schemeTwo.bodyPink"
+                                padding="0.6rem"
+                            >
+                                <Icon as={AiFillExclamationCircle} />
+                                <Text fontSize="md">
+                                    Artists are generated using these Genres!
+                                </Text>
+                            </Center>
+                            <Divider colorScheme="black" marginBottom="1rem" />
                             {favSongs.length === 0 ? (
-                                <Center
-                                    border="2px"
-                                    borderColor="schemeTwo.bodyPink"
-                                    marginBottom="2rem"
-                                    borderRadius="0.4rem"
-                                    gap={3}
-                                    color="schemeTwo.bodyPink"
-                                    padding="0.6rem"
-                                >
-                                    <Icon as={AiFillExclamationCircle} />
-                                    <Text fontSize="md">
-                                        Having favourites leads to more tailored
-                                        recommnedation experience
-                                    </Text>
-                                </Center>
-                            ) : (
+                                <>
+                                    <Center
+                                        border="2px"
+                                        borderColor="schemeTwo.bodyPink"
+                                        marginBottom="2rem"
+                                        borderRadius="0.4rem"
+                                        gap={3}
+                                        color="schemeTwo.bodyPink"
+                                        padding="0.6rem"
+                                    >
+                                        <Icon as={AiFillExclamationCircle} />
+                                        <Text fontSize="md">
+                                            You have no favourited songs! Having
+                                            favourites leads to more tailored
+                                            recommnendation experience
+                                        </Text>
+                                    </Center>
+                                    <Center>
+                                        Recommendations generated using{' '}
+                                    </Center>
+                                    <Center color="red">
+                                        COMBINED HISTORY AND FAVOURITES
+                                    </Center>
+                                    <Center>of all users</Center>
+                                </>
+                            ) : null}
+                            {modalRestOtherUsersFavs.length ? (
                                 <Box>
                                     <Text fontSize="md">
-                                        Genres from favourited songs:{' '}
+                                        Songs from Other Users:
                                     </Text>
-                                    <ul>
-                                        {uniqueFavGenres.map((genre) => (
-                                            <li>
-                                                <Icon as={BsDot} />
-                                                {genre}
-                                            </li>
-                                        ))}
-                                    </ul>
+                                    <Table>
+                                        <Thead>
+                                            <Tr>
+                                                <Th>User Id</Th>
+                                                <Th>Songs</Th>
+                                            </Tr>
+                                        </Thead>
+                                        <Tbody>
+                                            {modalRestOtherUsersFavs.map(
+                                                (mrouf, i) => (
+                                                    <Tr
+                                                        key={
+                                                            Object.keys(
+                                                                mrouf
+                                                            )[0]
+                                                        }
+                                                    >
+                                                        <Td>
+                                                            {
+                                                                Object.keys(
+                                                                    mrouf
+                                                                )[0]
+                                                            }
+                                                        </Td>
+
+                                                        <Td>
+                                                            <ul>
+                                                                {Object.values(
+                                                                    modalSongs[
+                                                                        i
+                                                                    ]
+                                                                ).map((m) => (
+                                                                    <li>
+                                                                        {m.name}
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
+                                                            {/* {Object.values(
+                                                                mrouf
+                                                            )} */}
+                                                        </Td>
+                                                    </Tr>
+                                                )
+                                            )}
+                                        </Tbody>
+                                    </Table>
                                 </Box>
-                            )}
+                            ) : null}
+                            {viaGenre ? (
+                                <>
+                                    <Center
+                                        border="2px"
+                                        borderColor="schemeTwo.bodyPink"
+                                        marginBottom="2rem"
+                                        borderRadius="0.4rem"
+                                        gap={3}
+                                        color="schemeTwo.bodyPink"
+                                        padding="0.6rem"
+                                    >
+                                        <Icon as={AiFillExclamationCircle} />
+                                        <Text marginBottom="1rem">
+                                            No other user has favourited at
+                                            least two from your favourites!
+                                        </Text>
+                                    </Center>
+
+                                    <Center>
+                                        Recommendations generated using{' '}
+                                    </Center>
+                                    <Center color="red">GENRES</Center>
+                                    <Center>
+                                        of artists of current favourited songs.
+                                    </Center>
+                                </>
+                            ) : null}
                         </ModalBody>
 
                         <ModalFooter>
@@ -175,29 +296,25 @@ export const getServerSideProps = async ({ req }) => {
     //* Get the Favourited Song IDs of current user
     const myFavIds = myFavs.map((myFav) => myFav.songId);
 
-    console.log('myfavsIds:\n', myFavIds);
+    // console.log('myfavsIds:\n', myFavIds);
 
     //* Get Unique Artist Ids of favourited songs
     const myFavedArtistsIds = myFavs
         .map((myFav) => myFav.song.artist.id)
         .filter((x, i, a) => a.indexOf(x) === i);
-    console.log('myFavedArtistsIds:\n', myFavedArtistsIds);
-
-    //* For Modal
-    const otherUsers = users.filter((users) => users.id !== user.id);
-    console.log('Other Users:\n', otherUsers);
+    // console.log('myFavedArtistsIds:\n', myFavedArtistsIds);
 
     //* Get favourites of the rest of the users excluding current user, could have done it earlier
     const otherUsersFavs = users
         .filter((indiUser) => indiUser.id !== user.id)
         .map((indiUser) => indiUser.favourite);
-    console.log('OtherUsersFavs:\n', otherUsersFavs);
+    // console.log('OtherUsersFavs:\n', otherUsersFavs);
 
     //* Get an array of array of song ids of other users favourited songs
     const otherUsersFavsIds = otherUsersFavs.map((of) =>
         of.map((o) => o.songId)
     );
-    console.log('otherUsersFavsIds', otherUsersFavsIds);
+    // console.log('otherUsersFavsIds', otherUsersFavsIds);
 
     // ********************************************************/
     // const test = otherUsersFavs.map((of) => {
@@ -215,9 +332,81 @@ export const getServerSideProps = async ({ req }) => {
         .flat(1);
     console.log('filteredIds:\n', filteredIds);
 
+    // ! For Modal
+    const modalTotalOtherUsersFavs = [];
+    otherUsersFavs.forEach((fou) => {
+        const re = fou.reduce((acc, { userId, songId }) => {
+            acc[userId] ??= { songs: [] };
+            acc[userId].songs.push(songId);
+            return acc;
+        }, {});
+        modalTotalOtherUsersFavs.push(re);
+    });
+    // console.log('modalTotalOtherUsersFavs:\n');
+
+    console.dir(modalTotalOtherUsersFavs, { depth: null });
+
+    const modalFilteredOtherUsersFavs = modalTotalOtherUsersFavs.filter(
+        (mtuf) =>
+            Object.values(mtuf)[0]?.songs.filter((x) => myFavIds.includes(x))
+                .length === 2
+    );
+
+    // console.log('modalFilteredOtherUsersFavs:\n');
+    // console.dir(modalFilteredOtherUsersFavs, { depth: null });
+
+    const modalRestOtherUsersFavs = modalFilteredOtherUsersFavs.filter(
+        (t) =>
+            (t[Object.keys(t)[0]] = Object.values(t)[0].songs.filter(
+                (song) => !myFavIds.includes(song)
+            ))
+    );
+    // console.log('modalRestOtherUsersFavs:\n');
+
+    // console.dir(modalRestOtherUsersFavs, { depth: null });
+
+    const modalSongs = [];
+
+    modalRestOtherUsersFavs.forEach(async (t) => {
+        const indiSongArr = await prisma.song.findMany({
+            where: {
+                OR: Object.values(t)[0].map((song) => ({
+                    id: song,
+                })),
+            },
+            select: {
+                name: true,
+            },
+        });
+        // console.log(indiSongArr);
+
+        modalSongs.push(indiSongArr);
+    });
+
+    // const test = [...modalFilteredOtherUsersFavs];
+    // console.log('Test:\n');
+    // console.dir(test, { depth: null });
+    // test.forEach(async (t) => {
+    //     t[Object.keys(t)[0]] = await prisma.song.findMany({
+    //         where: {
+    //             OR: Object.values(t)[0].map((song) => ({
+    //                 id: song,
+    //             })),
+    //         },
+    //         select: {
+    //             name: true,
+    //         },
+    //     });
+    // });
+
+    // console.log('Test:\n');
+    // console.dir(test, { depth: null });
+
+    // ! -------------------------------------------------------------------
+
     //* Get genres of artists associated with favourite songs of the current user
     const myFavGenres = myFavs.map((mf) => mf.song.artist.genres).flat(1);
-    console.log('myFavGenres:\n', myFavGenres);
+    // console.log('myFavGenres:\n', myFavGenres);
 
     //* Get other artists that have at least one of the genre tag associated with song favourited by current user
     const artistsViaGenres = await prisma.artist.findMany({
@@ -251,13 +440,13 @@ export const getServerSideProps = async ({ req }) => {
         .flat(1)
         .map((song) => song.id);
 
-    console.log('songIdsViaGenres:\n', songIdsViaGenres);
+    // console.log('songIdsViaGenres:\n', songIdsViaGenres);
 
     //* Find the common song Ids between the songs gotten by other users and songs gotten via current favourited songs' artists genre
     const commonIds = filteredIds.filter((fid) =>
         songIdsViaGenres.includes(fid)
     );
-    console.log('Common IDs:\n', commonIds);
+    // console.log('Common IDs:\n', commonIds);
 
     //* Get the songs with the help of common song Ids
     const reInforcedArtists = await prisma.song.findMany({
@@ -336,11 +525,16 @@ export const getServerSideProps = async ({ req }) => {
             },
         });
     }
+
     return {
         props: {
             recArtists: JSON.parse(JSON.stringify(recArtists)),
             recSongs: JSON.parse(JSON.stringify(recSongs)),
             myFavGenres: JSON.parse(JSON.stringify(myFavGenres)),
+            modalRestOtherUsersFavs: JSON.parse(
+                JSON.stringify(modalRestOtherUsersFavs)
+            ),
+            modalSongs: JSON.parse(JSON.stringify(modalSongs)),
         },
     };
 };

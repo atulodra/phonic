@@ -13,6 +13,7 @@ import {
     HStack,
     VStack,
     AbsoluteCenter,
+    useToast,
 } from '@chakra-ui/react';
 
 import { useRouter } from 'next/router';
@@ -26,6 +27,7 @@ const AuthForm: FC<{ mode: 'signin' | 'signup' }> = ({ mode }) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const toast = useToast();
 
     const router = useRouter();
 
@@ -34,9 +36,34 @@ const AuthForm: FC<{ mode: 'signin' | 'signup' }> = ({ mode }) => {
         setIsLoading(true);
 
         if (mode === 'signup') {
-            await auth(mode, { email, password, firstName, lastName });
+            const { error } = await auth(mode, {
+                email,
+                password,
+                firstName,
+                lastName,
+            });
+            setIsLoading(false);
+            if (error) {
+                toast({
+                    title: 'Unable to Sign Up',
+                    description: error,
+                    status: 'error',
+                    duration: 9000,
+                    isClosable: true,
+                });
+            }
         } else {
-            await auth(mode, { email, password });
+            const { error } = await auth(mode, { email, password });
+            setIsLoading(false);
+            if (error) {
+                toast({
+                    title: 'Unable to Sign In',
+                    description: error,
+                    status: 'error',
+                    duration: 9000,
+                    isClosable: true,
+                });
+            }
         }
         setIsLoading(false);
         router.push('/');
