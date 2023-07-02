@@ -5,4 +5,6 @@
 
 **Phonic** is a music streaming service that allows users to listen to music, create playlists and favourites and also recommends using their past history and favourites.
 
-https://github.com/atulodra/phonic/assets/18715481/63169377-53cc-41eb-82fd-dd8df737f862
+
+https://github.com/atulodra/phonic/assets/18715481/ddbb5c96-4211-4063-857e-b0d01c560917
+
